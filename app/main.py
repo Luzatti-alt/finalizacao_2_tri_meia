@@ -2,7 +2,16 @@ from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout  # Importando o layout
 from kivy.core.window import Window
+from kivy.graphics import Rectangle, Color#onde ficara o desing
+#poder ter retangulo/caixas onde ficara a img e o desing
+class DesenhoWidget(FloatLayout):
+    def __init__(self, **kwargs):
+        super(DesenhoWidget, self).__init__(**kwargs)
 
+        # Aqui, com 'self.canvas' você cria o canvas para desenhar
+        with self.canvas:
+            Color(1, 0, 0)  # Define a cor vermelha para o retângulo
+            self.retangulo = Rectangle(pos=(100, 100), size=(200, 100))
 class Prototipo(App):
     def build(self):
         altura = Window.height
@@ -25,6 +34,8 @@ class Prototipo(App):
                 size=(200, 50),
                 pos=(largura / 2 - 100, altura / 8 - 25)  # Corrigido para centralizar
             )
+            desenho_widget = DesenhoWidget()
+            layout.add_widget(desenho_widget)
             layout.add_widget(enviar)  # Adicionando o botão ao layout
             layout.add_widget(IA)  # Adicionando o botão IA ao layout
         draw()  # Chamando a função para desenhar os componentes
