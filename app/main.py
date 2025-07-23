@@ -32,5 +32,6 @@ class Prototipo(App):
         return layout
 
     def gen_img(self, instance):
+     print("temp para rodar funçao")
         # onde sera gerado a img por ia e componentes desta tela
 Prototipo().run()
