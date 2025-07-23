@@ -7,17 +7,18 @@ from kivy.graphics import Rectangle, Color#onde ficara o desing
 class DesenhoWidget(FloatLayout):
     def __init__(self, **kwargs):
         super(DesenhoWidget, self).__init__(**kwargs)
+        altura = Window.height
+        largura = Window.width
 
-        # Aqui, com 'self.canvas' você cria o canvas para desenhar
+        # Usando o Canvas para desenhar o retângulo
         with self.canvas:
-            Color(1, 0, 0)  # Define a cor vermelha para o retângulo
+            Color(1, 1, 1)  # Define a cor branca (usando valores RGB entre 0 e 1)
             self.retangulo = Rectangle(pos=(100, 100), size=(200, 100))
 class Prototipo(App):
     def build(self):
         altura = Window.height
         largura = Window.width
         layout = FloatLayout()
-
         # onde sera desenhada a img e componentes desta tela
         def draw():
             # Botão da IA para gerar imagem
