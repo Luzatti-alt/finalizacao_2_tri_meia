@@ -13,7 +13,7 @@ class DesenhoWidget(FloatLayout):
         # Usando o Canvas para desenhar o retângulo
         with self.canvas:
             Color(1, 1, 1)  # Define a cor branca (usando valores RGB entre 0 e 1)
-            self.retangulo = Rectangle(pos=(100, 100), size=(200, 100))
+            self.retangulo = Rectangle(pos=(100, 100), size=(largura/1.35, altura/1.35))
 class Prototipo(App):
     def build(self):
         altura = Window.height
