@@ -16,7 +16,6 @@ class DesenhoWidget(FloatLayout):
         Window.bind(on_resize=self.redesenhar_retangulo)
 
     def redesenhar_retangulo(self, *args):
-        """Função que redesenha o retângulo quando a janela for redimensionada"""
         largura = Window.width
         altura = Window.height
 
@@ -43,7 +42,8 @@ class Prototipo(App):
                 pos=(largura - 200, altura - 50)
             )
             IA.bind(on_press=self.gen_img)  # Ação ao pressionar o botão
-
+            Window.bind(on_resize=self.IA)
+            Window.bind(on_resize=self.enviar)
             # Botão para enviar o design
             enviar = Button(
                 text='Enviar design',
