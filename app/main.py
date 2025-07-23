@@ -33,7 +33,7 @@ class Prototipo(App):
                 text='Enviar design',
                 size_hint=(None, None),  # Tamanho fixo, sem resize automático
                 size=(200, 50),
-                pos=(largura / 2 - 100, altura / 8 - 25)  # Corrigido para centralizar
+                pos=(largura / 2 - 100, altura / 8 - 75)  # Corrigido para centralizar
             )
             desenho_widget = DesenhoWidget()
             layout.add_widget(desenho_widget)
