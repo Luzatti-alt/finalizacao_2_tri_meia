@@ -9,7 +9,7 @@ class DesenhoWidget(FloatLayout):
         super(DesenhoWidget, self).__init__(**kwargs)
         altura = Window.height
         largura = Window.width
-
+        #pensar em formula que arruma conforme tamanho da tela
         # Usando o Canvas para desenhar o retângulo
         with self.canvas:
             Color(1, 1, 1)  # Define a cor branca (usando valores RGB entre 0 e 1)
@@ -44,6 +44,10 @@ class Prototipo(App):
         return layout
 
     def gen_img(self, instance):
-     print("temp para rodar funçao")
+        altura = Window.height
+        largura = Window.width
+        layout = FloatLayout()
+        desenho_widget = DesenhoWidget()
+        layout.add_widget(desenho_widget)
         # onde sera gerado a img por ia e componentes desta tela
 Prototipo().run()
