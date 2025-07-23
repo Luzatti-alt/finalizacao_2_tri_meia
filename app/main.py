@@ -13,7 +13,7 @@ class Prototipo(App):
             text='IA geradora de imagem',
             size_hint=(None, None),  # Tamanho fixo, sem resize automático
             size=(200, 50),
-            pos=(largura-200, altura-100)  # Corrigido para centralizar
+            pos=(largura-200, altura-50)  # Corrigido para centralizar
         )
 
         # Criando o botão com a posição corrigida
