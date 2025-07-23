@@ -7,19 +7,23 @@ class Prototipo(App):
     def build(self):
         altura = Window.height
         largura = Window.width
+
         layout = FloatLayout()
         IA = Button(
             text='IA geradora de imagem',
             size_hint=(None, None),  # Tamanho fixo, sem resize automático
             size=(200, 50),
-            pos=(largura / 2 - 100, altura-100)  # Corrigido para centralizar
+            pos=(largura-200, altura-100)  # Corrigido para centralizar
         )
+
+        # Criando o botão com a posição corrigida
         enviar = Button(
             text='Enviar design',
             size_hint=(None, None),  # Tamanho fixo, sem resize automático
             size=(200, 50),
-            pos=(largura / 2 - 100, altura / 2 - 25)  # Corrigido para centralizar
+            pos=(largura / 2 - 100, altura / 8 - 25)  # Corrigido para centralizar
         )
+
         layout.add_widget(enviar)  # Adicionando o botão ao layout
         layout.add_widget(IA)#botão da ia que gerar a img
         return layout
