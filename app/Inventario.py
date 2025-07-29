@@ -7,13 +7,12 @@ class Inventario:
         super().item(tipo_nome)
         self.tipo_nome = tipo_nome
         print(tipo_nome)
-    def quantidade(self,qnt)->None:
-        super().quantidade(qnt)#permitir a herança
+    def quantidade_estoque(self,qnt)->None:
+        super().quantidade_estoque(qnt)#permitir a herança
         #valores no inventario
         self.qnt = qnt
         print(qnt)
     def controle(self):
-        print("a")
         act = input("Digite a ação desejada")
         #temp
         #fazer +- com o desing para ver qnt sera gasto
