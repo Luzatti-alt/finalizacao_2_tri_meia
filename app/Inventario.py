@@ -16,8 +16,18 @@ class Inventario:
         print("a")
         act = input("Digite a ação desejada")
         #temp
+        #fazer +- com o desing para ver qnt sera gasto
         while(True):
             match act:
                 case add_cor:
                     print("adicionando cor")
+                case remover_cor:
+                    print("removendo cor")
+                case restock:
+                    print("restocando {o que sera restocado}")
+                    #ver a qnt e qual cor
+                    #add o restock de X itens de ____
+                case venda:
+                    print("foi vendido {} unidades atualizando valores")
+                    #remover X do stock
             #sistema de controle teminal(dps vou fazer aparecer no kivy)
