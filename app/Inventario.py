@@ -12,10 +12,10 @@ class Inventario:
         #valores no inventario
         self.qnt = qnt
         print(qnt)
-    def estoque(self)->None:
-        #todos os objs
-class gestao:
     def controle(self):
         print("a")
         act = input("Digite a ação desejada")
-    #classe de controle
+        #temp
+        while(True):
+            act
+            #sistema de controle teminal(dps vou fazer aparecer no kivy)
