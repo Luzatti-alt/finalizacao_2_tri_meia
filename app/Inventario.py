@@ -22,6 +22,7 @@ class Inventario:
                     print("adicionando cor")
                 case remover_cor:
                     print("removendo cor")
+                    #if remover_cor not in tipo: nn existe esta cor no estoque
                 case restock:
                     print("restocando {o que sera restocado}")
                     #ver a qnt e qual cor
