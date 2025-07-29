@@ -17,5 +17,7 @@ class Inventario:
         act = input("Digite a ação desejada")
         #temp
         while(True):
-            act
+            match act:
+                case add_cor:
+                    print("adicionando cor")
             #sistema de controle teminal(dps vou fazer aparecer no kivy)
