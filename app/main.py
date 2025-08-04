@@ -1,91 +1,70 @@
-from kivy.app import App
-from kivy.uix.button import Button
-from kivy.uix.floatlayout import FloatLayout  # Importando o layout
-from kivy.core.window import Window
-from kivy.graphics import Rectangle, Color  # Onde ficará o design
-
-# Classe que cria o widget com o Canvas
-class DesenhoWidget(FloatLayout):
-    def __init__(self, **kwargs):
-        super(DesenhoWidget, self).__init__(**kwargs)
-        # Inicializar o retângulo
-        self.retangulo = None
-        self.redesenhar_retangulo()  # Redesenha o retângulo ao iniciar a classe
-
-        # Conectar a função on_size à mudança de tamanho da janela
-        Window.bind(on_resize=self.redesenhar_retangulo)
-
-    def redesenhar_retangulo(self, *args):
-        largura = Window.width
-        altura = Window.height
-
-        # Usando o Canvas para desenhar o retângulo
-        with self.canvas:
-            self.canvas.clear()  # Limpa o canvas antes de redesenhar
-            Color(1, 1, 1)  # Define a cor branca (usando valores RGB entre 0 e 1)
-            # Desenha o retângulo com as novas dimensões
-            self.retangulo = Rectangle(pos=(100, 100), size=(largura / 1.35, altura / 1.35))
-
-class Prototipo(App):
-    def build(self):
-        altura = Window.height
-        largura = Window.width
-        layout = FloatLayout()
-
-        # Função para desenhar os componentes
-        def draw():
-            # Botão da IA para gerar imagem
-            IA = Button(
-                text='IA geradora de imagem',
-                size_hint=(None, None),
-                size=(200, 50),
-                pos=(largura - 200, altura - 50)
-            )
-            IA.bind(on_press=self.gen_img)  # Ação ao pressionar o botão
-            Window.bind(on_resize=self.IA)
-            Window.bind(on_resize=self.enviar)
-            # Botão para enviar o design
-            enviar = Button(
-                text='Enviar design',
-                size_hint=(None, None),
-                size=(200, 50),
-                pos=(largura / 2 - 100, altura / 8 - 75)  # Corrigido para centralizar
-            )
-
-            # Criando e adicionando o widget com o Canvas
-            desenho_widget = DesenhoWidget()
-            layout.add_widget(desenho_widget)  # Adicionando o widget de desenho ao layout
-            layout.add_widget(enviar)  # Adicionando o botão de enviar ao layout
-            layout.add_widget(IA)  # Adicionando o botão da IA ao layout
-
-        draw()  # Chamando a função para desenhar os componentes
-
-        return layout
-
-    def gen_img(self, instance):
-        altura = Window.height
-        largura = Window.width
-        layout = self.root  # Pegando o layout principal
-
-        # Limpa todos os widgets da tela (remover tudo)
-        layout.clear_widgets()
-
-        # Após limpar a tela, cria um novo layout com o conteúdo desejado
-        # Neste exemplo, só vou adicionar o botão "Enviar design" novamente.
-        enviar = Button(
-            text='Enviar design',
-            size_hint=(None, None),
-            size=(200, 50),
-            pos=(largura / 2 - 100, altura / 8 - 25)
-        )
-        layout.add_widget(enviar)  # Adicionando o botão de enviar
-
-        # Aqui você pode adicionar o conteúdo da função gen_img,
-        # como desenhar novos gráficos, imagens ou outros widgets.
-
-        # Para fins de exemplo, vou redesenhar o retângulo
-        desenho_widget = DesenhoWidget()
-        layout.add_widget(desenho_widget)  # Adiciona o novo conteúdo com o Canvas
-
-# Inicia o aplicativo
-Prototipo().run()
+#public Controle_meia(): #array/lista de cores e atribuir essas cores como objs ou via json
+import time
+on = 1
+#dps fazer/colocar em um db
+cores = ["vermelho","verde","amarelo","azul"]
+#comandos
+lista_comandos = ["estoque","adicionar cor","remover cor","produzir meia","desligar"]
+#afirmações
+confirmacao = ["sim","s","ss","positivo","afirmativo"]
+def ver_estoque():
+  print("core disponiveis: \n")
+  print(cores)
+def add_cor():
+  nv_cor = input("digite a nova cor a ser adicionada ")
+  cores.append(nv_cor)
+  print("adicionando a cor")
+def remove_cor():
+  nv_cor = input("digite a nova cor a ser adicionada ")
+  cores.remove(nv_cor)
+  print("removendo a cor")
+def produzir_meia():
+  qnt_mat = input("digite a quantidade de cores a ser usada: ")
+  qnt_mat_conf = input(f"tem certeza dessa quantidade {qnt_mat}? ").lower()
+  if qnt_mat_conf in confirmacao:
+    tipo_agulha = input("digite o tipo de agulha que será usada na criação da meia")
+    conf_tipo_agulha = input(f"será usada {tipo_agulha} tem certeza que o tipo certo está sendo utilizado")
+    if conf_tipo_agulha in confirmacao:
+      print("iniciando produção da meia")
+      #ver o tipo de agulha e criara uma estimativa de material gasto
+  else:
+    print("voltando ao menu principal")
+    #aqui tera o calculo de qnts de cada cor sera usada removera do valor do que tem
+    #se passar do limite ele avisa que não sera possivel produzir a meia com a qnt de recurso atuais
+def carregar():
+  for i in range(0,5):
+    print("\rcarregando dados.",end="")
+    time.sleep(0.5)
+    print("\rcarregando dados..",end="")
+    time.sleep(0.5)
+    print("\rcarregando dados...",end="")
+    time.sleep(0.5)
+def Controle_fios():
+  carregar()
+  while True:
+      esc = input("\nDados do estoque de meia carregado \n O que deseja fazer(digite help para ver a lista de comandos): ").lower()
+      match esc:
+        case "estoque":
+          print("checkando o estoque\n")
+          ver_estoque()
+          break
+        case "remover cor":
+          remove_cor()
+          break
+        case "adicionar cor":
+          add_cor()
+          break
+        case "help":
+          print(lista_comandos)
+        case "produzir meia":
+          produzir_meia()
+          break
+        case "desligar":
+          on = 0
+          print("encerrando o programa")
+          exit()
+          break
+        case default:
+          print("algo é invalido")                                                                                                                                                                                                                                                                                                                   #iniciar prototipo
+if on == 1:
+  Controle_fios()
