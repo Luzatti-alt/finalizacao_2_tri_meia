@@ -1,23 +1,30 @@
 #public Controle_meia(): #array/lista de cores e atribuir essas cores como objs ou via json
+from db import *
 import time
 on = 1
-#dps fazer/colocar em um db
-cores = ["vermelho","verde","amarelo","azul"]
 #comandos
 lista_comandos = ["estoque","adicionar cor","remover cor","produzir meia","desligar"]
 #afirmações
 confirmacao = ["sim","s","ss","positivo","afirmativo"]
 def ver_estoque():
   print("core disponiveis: \n")
-  print(cores)
 def add_cor():
   nv_cor = input("digite a nova cor a ser adicionada ")
-  cores.append(nv_cor)
+  qnt_cor = input("digite quantos kilos desta cor(somente o número): ")
   print("adicionando a cor")
+  cores = Cores(cor=nv_cor,quantidade_cor_kg=qnt_cor,disponivel=True)
+  session.add(cores)
+  session.commit()
 def remove_cor():
   nv_cor = input("digite a nova cor a ser adicionada ")
-  cores.remove(nv_cor)
   print("removendo a cor")
+  cor_obj = session.query(Cores).filter_by(cor=nv_cor).first()
+  if not cor_obj:
+    print(f"❌ Cor «{nv_cor}» não encontrada no estoque.")
+    return
+  session.delete(cor_obj)
+  session.commit()
+
 def produzir_meia():
   qnt_mat = input("digite a quantidade de cores a ser usada: ")
   qnt_mat_conf = input(f"tem certeza dessa quantidade {qnt_mat}? ").lower()
