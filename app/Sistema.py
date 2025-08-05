@@ -1,6 +1,7 @@
 from db import *
 import time
 on = 1
+#impedir duplicatas
 #comandos
 lista_comandos = ["estoque","adicionar cor","remover cor","produzir meia","desligar"]
 #afirmações
@@ -10,12 +11,17 @@ def ver_estoque():
   for cor in cores_no_db:
    print(f"Cor: {cor.cor}\n Quantidade: {cor.quantidade_cor_kg}kg\n Disponível: {cor.disponivel}\n")
 def add_cor():
+  existe = session.query(Cores).filter_by(cor="vermelho").first()
   nv_cor = input("digite a nova cor a ser adicionada ")
   qnt_cor = input("digite quantos kilos desta cor(somente o número): ")
-  print("adicionando a cor")
-  cores = Cores(cor=nv_cor,quantidade_cor_kg=qnt_cor,disponivel=True)
-  session.add(cores)
-  session.commit()
+  if existe:
+    print("Cor já existe no sistema")
+  else:
+    session.add(Cores(cor=nv_cor,quantidade_cor_kg=qnt_cor,disponivel=True))
+    session.commit()
+    print("adicionando a cor")
+      #criar função que atualize os valores
+      #em produção descontar do db se for valido se for invalido vai avisar
 def remove_cor():
   nv_cor = input("digite a nova cor a ser adicionada ")
   print("removendo a cor")
@@ -26,30 +32,40 @@ def remove_cor():
   session.delete(cor_obj)
   session.commit()
 def produzir_meia():
-    # INPUT cores
-    qnts_mats = input("Digite as cores a serem usadas (separe com vírgula): ")
-    cores = [cor.strip().lower() for cor in qnts_mats.split(',')]
-    qnts_mats_conf = input(f"Tem certeza dessas cores: {cores}? (sim/não) ").lower()
+  #tem que criar validação de ter essa cor começei a fazer
+  cores_no_db = session.query(Cores.cor).all()
+  cores_disponiveis = [cor[0].lower() for cor in cores_no_db]
+  print(cores_no_db)
+  gauges_possiveis = [84, 96, 108, 120, 144]  # valores inteiros, não string
+  qnts_mats = input("Digite as cores a serem usadas (separe com vírgula): ")
+  cores = [cor.strip().lower() for cor in qnts_mats.split(',')]
+  qnts_mats_conf = input(f"Tem certeza dessas cores: {cores}? (sim/não) ").lower()
+  cores_invalidas = [cor for cor in cores if cor not in cores_disponiveis]
+  if cores_invalidas:
+    print(f"As seguintes cores não estão no banco de dados: {cores_invalidas}")
+    return
+  else:
     if qnts_mats_conf not in confirmacao:
-        print("Algo inválido, voltando ao menu principal.")
-        return
-    # INPUT gauge
+      print("entendido, voltando ao menu principal")
+      return
     try:
-        gauge_agulha = int(input("Digite o gauge da agulha (ex: 84, 96, 108, 120, 144): "))
+      gauge_agulha = int(input("Digite o gauge da agulha (84, 96, 108, 120, 144): "))
     except ValueError:
-        print("Valor inválido para gauge. Deve ser um número.")
-        return
+      print("Valor inválido para gauge. Deve ser um número.")
+      return
+    if gauge_agulha not in gauges_possiveis:
+      print("gauge desconhecido")
+      return  # importante sair da função aqui
     conf_gauge_agulha = input(f"Será usado {gauge_agulha}G. Tem certeza? (sim/não) ").lower()
     if conf_gauge_agulha not in confirmacao:
-        print("Confirmação recusada. Voltando ao menu principal.")
-        return
-    # INPUT quantidade de meias
+      print("Confirmação recusada. Voltando ao menu principal.")
+      return
     try:
-        quantidade_meias = int(input("Quantas meias deseja produzir? "))
+      quantidade_meias = int(input("Quantas meias deseja produzir? "))
     except ValueError:
-        print("Quantidade inválida.")
-        return
-    print("\n Iniciando produção da meia...")
+      print("Quantidade inválida.")
+      return
+    print("\nIniciando produção da meia...")
     # DADOS FIXOS
     gauge_base = 96       # base para calcular o fator de consumo
     consumo_base = 50     # gramas por meia com gauge_base
@@ -58,7 +74,7 @@ def produzir_meia():
     material_total_por_cor = consumo_base * fator_consumo * quantidade_meias
     # Simulação de gasto por cor
     for cor in cores:
-        print(f"→ Cor '{cor}': será usado aproximadamente {material_total_por_cor:.2f}g de lã.")
+      print(f"→ Cor '{cor}': será usado aproximadamente {material_total_por_cor:.2f}g de lã.")
     print("\n✅ Produção estimada concluída.")
 def carregar():
   for i in range(0,5):
