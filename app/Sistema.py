@@ -6,7 +6,6 @@ lista_comandos = ["estoque","adicionar cor","remover cor","produzir meia","desli
 #afirmações
 confirmacao = ["sim","s","ss","positivo","afirmativo"]
 def ver_estoque():
-  #quase isso pega algumas informações que nn precisa
   cores_no_db = session.query(Cores).all()
   for cor in cores_no_db:
    print(f"Cor: {cor.cor}\n Quantidade: {cor.quantidade_cor_kg}kg\n Disponível: {cor.disponivel}\n")
@@ -27,13 +26,14 @@ def remove_cor():
   session.delete(cor_obj)
   session.commit()
 def produzir_meia():
-  qnt_mat = input("digite a quantidade de cores a ser usada: ")
-  qnt_mat_conf = input(f"tem certeza dessa quantidade {qnt_mat}? ").lower()
-  if qnt_mat_conf in confirmacao:
+  qnts_mats = input("digite a quantidade de cores a ser usada: ")
+  qnts_mats_conf = input(f"tem certeza dessa quantidade {qnt_mat}? ").lower()
+  if qnts_mats_conf in confirmacao:
     tipo_agulha = input("digite o tipo de agulha que será usada na criação da meia")
     conf_tipo_agulha = input(f"será usada {tipo_agulha} tem certeza que o tipo certo está sendo utilizado")
     if conf_tipo_agulha in confirmacao:
       print("iniciando produção da meia")
+      mat_usado = ()#calculo
       #ver o tipo de agulha e criara uma estimativa de material gasto
   else:
     print("voltando ao menu principal")
