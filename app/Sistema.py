@@ -26,17 +26,19 @@ def remove_cor():
   session.delete(cor_obj)
   session.commit()
 def produzir_meia():
-  qnts_mats = input("digite a quantidade de cores a ser usada: ")
-  qnts_mats_conf = input(f"tem certeza dessa quantidade {qnt_mat}? ").lower()
+  qnts_mats = input("digite as cores a ser usada (separe usando virgula): ")
+  qnts_mats_conf = input(f"tem certeza dessa quantidade {qnts_mats}? ").lower()
   if qnts_mats_conf in confirmacao:
+    #pegar qnts_mats separar numa lista add todos os elementos separando com a ,
     tipo_agulha = input("digite o tipo de agulha que será usada na criação da meia")
     conf_tipo_agulha = input(f"será usada {tipo_agulha} tem certeza que o tipo certo está sendo utilizado")
     if conf_tipo_agulha in confirmacao:
       print("iniciando produção da meia")
+      #ver o num de itens 
       mat_usado = ()#calculo
       #ver o tipo de agulha e criara uma estimativa de material gasto
   else:
-    print("voltando ao menu principal")
+    print("algo é invalido, voltando ao menu principal")
     #aqui tera o calculo de qnts de cada cor sera usada removera do valor do que tem
     #se passar do limite ele avisa que não sera possivel produzir a meia com a qnt de recurso atuais
 def carregar():
