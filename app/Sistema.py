@@ -26,15 +26,21 @@ def remove_cor():
   session.delete(cor_obj)
   session.commit()
 def produzir_meia():
+  #dados
+  #espessura
+  #0,35 mm a 0,5 mm (para gauges finos)
+  #>0,6 mm (para fios mais grossos)
+  #fazer fator de consumo
+  #gauge/g
   qnts_mats = input("digite as cores a ser usada (separe usando virgula): ")
   qnts_mats_conf = input(f"tem certeza dessa quantidade {qnts_mats}? ").lower()
   if qnts_mats_conf in confirmacao:
     #pegar qnts_mats separar numa lista add todos os elementos separando com a ,
-    tipo_agulha = input("digite o tipo de agulha que será usada na criação da meia")
-    conf_tipo_agulha = input(f"será usada {tipo_agulha} tem certeza que o tipo certo está sendo utilizado")
+    gauge_agulha = input("digite o gauge da agulha que será usada na criação da meia\n(84g,96g,108g,120g,144g)digite somente o número")
+    conf_tipo_agulha = input(f"será usada {gauge_agulha} tem certeza que o tipo certo está sendo utilizado")
     if conf_tipo_agulha in confirmacao:
       print("iniciando produção da meia")
-      #ver o num de itens 
+      fator_consumo = ()#calculo fator consumo
       mat_usado = ()#calculo
       #ver o tipo de agulha e criara uma estimativa de material gasto
   else:
