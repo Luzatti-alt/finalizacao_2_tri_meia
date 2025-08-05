@@ -84,7 +84,7 @@ def upt_fio():
   if tipo_upt not in ("remover", "adicionar"):
         print("Opção inválida. Digite 'remover' ou 'adicionar'.")
         return
-  qual_upt = ("digite a cor da lã que será atualizada(1 por vez)")
+  qual_upt = input("digite a cor da lã que será atualizada(1 por vez)")
   #verificação
   cores_invalidas = [cor for cor in qual_upt if cor not in cores_disponiveis]
   if cores_invalidas:
