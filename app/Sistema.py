@@ -26,27 +26,40 @@ def remove_cor():
   session.delete(cor_obj)
   session.commit()
 def produzir_meia():
-  #dados
-  #espessura
-  #0,35 mm a 0,5 mm (para gauges finos)
-  #>0,6 mm (para fios mais grossos)
-  #fazer fator de consumo
-  #gauge/g
-  qnts_mats = input("digite as cores a ser usada (separe usando virgula): ")
-  qnts_mats_conf = input(f"tem certeza dessa quantidade {qnts_mats}? ").lower()
-  if qnts_mats_conf in confirmacao:
-    #pegar qnts_mats separar numa lista add todos os elementos separando com a ,
-    gauge_agulha = input("digite o gauge da agulha que será usada na criação da meia\n(84g,96g,108g,120g,144g)digite somente o número")
-    conf_tipo_agulha = input(f"será usada {gauge_agulha} tem certeza que o tipo certo está sendo utilizado")
-    if conf_tipo_agulha in confirmacao:
-      print("iniciando produção da meia")
-      fator_consumo = ()#calculo fator consumo
-      mat_usado = ()#calculo
-      #ver o tipo de agulha e criara uma estimativa de material gasto
-  else:
-    print("algo é invalido, voltando ao menu principal")
-    #aqui tera o calculo de qnts de cada cor sera usada removera do valor do que tem
-    #se passar do limite ele avisa que não sera possivel produzir a meia com a qnt de recurso atuais
+    # INPUT cores
+    qnts_mats = input("Digite as cores a serem usadas (separe com vírgula): ")
+    cores = [cor.strip().lower() for cor in qnts_mats.split(',')]
+    qnts_mats_conf = input(f"Tem certeza dessas cores: {cores}? (sim/não) ").lower()
+    if qnts_mats_conf not in confirmacao:
+        print("Algo inválido, voltando ao menu principal.")
+        return
+    # INPUT gauge
+    try:
+        gauge_agulha = int(input("Digite o gauge da agulha (ex: 84, 96, 108, 120, 144): "))
+    except ValueError:
+        print("Valor inválido para gauge. Deve ser um número.")
+        return
+    conf_gauge_agulha = input(f"Será usado {gauge_agulha}G. Tem certeza? (sim/não) ").lower()
+    if conf_gauge_agulha not in confirmacao:
+        print("Confirmação recusada. Voltando ao menu principal.")
+        return
+    # INPUT quantidade de meias
+    try:
+        quantidade_meias = int(input("Quantas meias deseja produzir? "))
+    except ValueError:
+        print("Quantidade inválida.")
+        return
+    print("\n Iniciando produção da meia...")
+    # DADOS FIXOS
+    gauge_base = 96       # base para calcular o fator de consumo
+    consumo_base = 50     # gramas por meia com gauge_base
+    # Cálculo do fator de consumo
+    fator_consumo = gauge_base / gauge_agulha
+    material_total_por_cor = consumo_base * fator_consumo * quantidade_meias
+    # Simulação de gasto por cor
+    for cor in cores:
+        print(f"→ Cor '{cor}': será usado aproximadamente {material_total_por_cor:.2f}g de lã.")
+    print("\n✅ Produção estimada concluída.")
 def carregar():
   for i in range(0,5):
     print("\rcarregando dados.",end="")
