@@ -1,4 +1,3 @@
-#public Controle_meia(): #array/lista de cores e atribuir essas cores como objs ou via json
 from db import *
 import time
 on = 1
@@ -7,7 +6,10 @@ lista_comandos = ["estoque","adicionar cor","remover cor","produzir meia","desli
 #afirmações
 confirmacao = ["sim","s","ss","positivo","afirmativo"]
 def ver_estoque():
-  print("core disponiveis: \n")
+  #quase isso pega algumas informações que nn precisa
+  cores_no_db = session.query(Cores).all()
+  for cor in cores_no_db:
+   print(f"Cor: {cor.cor}\n Quantidade: {cor.quantidade_cor_kg}kg\n Disponível: {cor.disponivel}\n")
 def add_cor():
   nv_cor = input("digite a nova cor a ser adicionada ")
   qnt_cor = input("digite quantos kilos desta cor(somente o número): ")
@@ -20,11 +22,10 @@ def remove_cor():
   print("removendo a cor")
   cor_obj = session.query(Cores).filter_by(cor=nv_cor).first()
   if not cor_obj:
-    print(f"❌ Cor «{nv_cor}» não encontrada no estoque.")
+    print(f" Cor «{nv_cor}» não encontrada no estoque.")
     return
   session.delete(cor_obj)
   session.commit()
-
 def produzir_meia():
   qnt_mat = input("digite a quantidade de cores a ser usada: ")
   qnt_mat_conf = input(f"tem certeza dessa quantidade {qnt_mat}? ").lower()
@@ -41,12 +42,13 @@ def produzir_meia():
 def carregar():
   for i in range(0,5):
     print("\rcarregando dados.",end="")
-    time.sleep(0.5)
+    time.sleep(0.3)
     print("\rcarregando dados..",end="")
-    time.sleep(0.5)
+    time.sleep(0.3)
     print("\rcarregando dados...",end="")
-    time.sleep(0.5)
+    time.sleep(0.3)
 def Controle_fios():
+  global on
   carregar()
   while True:
       esc = input("\nDados do estoque de meia carregado \n O que deseja fazer(digite help para ver a lista de comandos): ").lower()
@@ -68,10 +70,10 @@ def Controle_fios():
           break
         case "desligar":
           on = 0
-          print("encerrando o programa")
+          print("\n encerrando o programa")
           exit()
           break
         case default:
-          print("algo é invalido")                                                                                                                                                                                                                                                                                                                   #iniciar prototipo
-if on == 1:
-  Controle_fios()
+          print("algo é invalido")
+while on ==1:
+ Controle_fios()
