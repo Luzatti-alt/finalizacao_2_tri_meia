@@ -3,7 +3,7 @@ import time
 on = 1
 #impedir duplicatas
 #comandos
-lista_comandos = ["estoque","adicionar cor","remover cor","produzir meia","desligar"]
+lista_comandos = ["estoque","adicionar cor","remover cor","atualizar cor","produzir meia","desligar"]
 #afirmações
 confirmacao = ["sim","s","ss","positivo","afirmativo"]
 def ver_estoque():
@@ -11,9 +11,9 @@ def ver_estoque():
   for cor in cores_no_db:
    print(f"Cor: {cor.cor}\n Quantidade: {cor.quantidade_cor_kg}kg\n Disponível: {cor.disponivel}\n")
 def add_cor():
-  existe = session.query(Cores).filter_by(cor="vermelho").first()
-  nv_cor = input("digite a nova cor a ser adicionada ")
-  qnt_cor = input("digite quantos kilos desta cor(somente o número): ")
+  existe = session.query(Cores).first()
+  nv_cor = input("digite a nova cor a ser adicionada ").lower()
+  qnt_cor = int(input("digite quantos kilos desta cor(somente o número): "))
   if existe:
     print("Cor já existe no sistema")
   else:
@@ -76,6 +76,32 @@ def produzir_meia():
     for cor in cores:
       print(f"→ Cor '{cor}': será usado aproximadamente {material_total_por_cor:.2f}g de lã.")
     print("\n✅ Produção estimada concluída.")
+def upt_fio():
+  cores_no_db = session.query(Cores.cor).all()
+  cores_disponiveis = [cor[0].lower() for cor in cores_no_db]
+  #pedir infos
+  tipo_upt = str(input("remover ou renovar estoque: ")).lower()
+  if tipo_upt not in ("remover", "adicionar"):
+        print("Opção inválida. Digite 'remover' ou 'adicionar'.")
+        return
+  qual_upt = ("digite a cor da lã que será atualizada(1 por vez)")
+  #verificação
+  cores_invalidas = [cor for cor in qual_upt if cor not in cores_disponiveis]
+  if cores_invalidas:
+    print(f"não foi encontrado {qual_upt}")
+    return
+  else:
+    qnt_upt = float(input("digite o quanto será renovado/removido do estoque"))
+    if tipo_upt =="remover":
+      #adicionar a lógica e nn deixar ficar no negativo
+      print(f"removendo{qual_upt}em{qnt_upt}")
+      session.query(Cores).update(qual_upt.quantidade_cor_kg)#quantidadeFq
+      if qnt_upt < 0:
+        print("aa")
+        #cap para nn ficar no db com resultado negativo
+    elif tipo_upt == "adicionar":
+      print(f"adicionando{qual_upt}em{qnt_upt}")
+
 def carregar():
   for i in range(0,5):
     print("\rcarregando dados.",end="")
@@ -99,6 +125,9 @@ def Controle_fios():
           break
         case "adicionar cor":
           add_cor()
+          break
+        case "atualizar cor":
+          upt_fio()
           break
         case "help":
           print(lista_comandos)
