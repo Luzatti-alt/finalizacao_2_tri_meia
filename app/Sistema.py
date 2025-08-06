@@ -1,7 +1,6 @@
 from db import *
 import time
 on = 1
-#impedir duplicatas
 #comandos
 lista_comandos = ["estoque","adicionar cor","remover cor","atualizar cor","produzir meia","desligar"]
 #afirmações
@@ -11,8 +10,8 @@ def ver_estoque():
   for cor in cores_no_db:
    print(f"Cor: {cor.cor}\n Quantidade: {cor.quantidade_cor_kg}kg\n Disponível: {cor.disponivel}\n")
 def add_cor():
-  existe = session.query(Cores).first()
   nv_cor = input("digite a nova cor a ser adicionada ").lower()
+  existe = session.query(Cores).filter_by(cor=nv_cor).first()
   qnt_cor = int(input("digite quantos kilos desta cor(somente o número): "))
   if existe:
     print("Cor já existe no sistema")
@@ -78,6 +77,11 @@ def produzir_meia():
     print("\n✅ Produção estimada concluída.")
     #converter para kg e descontar do db
     material_total_kg = (material_total_por_cor/1000)
+    cores_no_db = session.query(Cores).all()
+    cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
+    cor_obj = cores_disponiveis[cor]
+    cor_obj.quantidade_cor_kg -= material_total_kg
+    print(f"Novo total: {cor_obj.quantidade_cor_kg:.2f}kg")
 def upt_fio():
     cores_no_db = session.query(Cores).all()
     cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
@@ -106,7 +110,7 @@ def upt_fio():
         print(f"Adicionado {qnt_upt}kg à cor '{qual_upt}'. Novo total: {cor_obj.quantidade_cor_kg:.2f}kg")
     session.commit()
 def carregar():
-  for i in range(0,5):
+  for i in range(0,2):
     print("\rcarregando dados.",end="")
     time.sleep(0.3)
     print("\rcarregando dados..",end="")
