@@ -76,6 +76,8 @@ def produzir_meia():
     for cor in cores:
       print(f"→ Cor '{cor}': será usado aproximadamente {material_total_por_cor:.2f}g de lã.")
     print("\n✅ Produção estimada concluída.")
+    #converter para kg e descontar do db
+    material_total_kg = (material_total_por_cor/1000)
 def upt_fio():
     cores_no_db = session.query(Cores).all()
     cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
@@ -152,3 +154,4 @@ def Controle_fios():
           print("algo é invalido")
 while on ==1:
  Controle_fios()
+
