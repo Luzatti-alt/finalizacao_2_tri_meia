@@ -19,8 +19,6 @@ def add_cor():
     session.add(Cores(cor=nv_cor,quantidade_cor_kg=qnt_cor,disponivel=True))
     session.commit()
     print("adicionando a cor")
-      #criar função que atualize os valores
-      #em produção descontar do db se for valido se for invalido vai avisar
 def remove_cor():
   nv_cor = input("digite a nova cor a ser adicionada ")
   print("removendo a cor")
@@ -31,10 +29,8 @@ def remove_cor():
   session.delete(cor_obj)
   session.commit()
 def produzir_meia():
-  #tem que criar validação de ter essa cor começei a fazer
   cores_no_db = session.query(Cores.cor).all()
   cores_disponiveis = [cor[0].lower() for cor in cores_no_db]
-  print(cores_no_db)
   gauges_possiveis = [84, 96, 108, 120, 144]  # valores inteiros, não string
   qnts_mats = input("Digite as cores a serem usadas (separe com vírgula): ")
   cores = [cor.strip().lower() for cor in qnts_mats.split(',')]
@@ -76,7 +72,6 @@ def produzir_meia():
       print(f"→ Cor '{cor}': será usado aproximadamente {material_total_por_cor:.2f}g de lã.")
     print("\n✅ Produção estimada concluída.")
     #converter para kg e descontar do db
-    material_total_kg = (material_total_por_cor/1000)
     cores_no_db = session.query(Cores).all()
     cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
     for cor in cores:
