@@ -79,9 +79,11 @@ def produzir_meia():
     material_total_kg = (material_total_por_cor/1000)
     cores_no_db = session.query(Cores).all()
     cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
-    cor_obj = cores_disponiveis[cor]
-    cor_obj.quantidade_cor_kg -= material_total_kg
-    print(f"Novo total: {cor_obj.quantidade_cor_kg:.2f}kg")
+    for cor in cores:
+        cor_obj = cores_disponiveis[cor]
+        cor_obj.quantidade_cor_kg -= (material_total_por_cor / 1000)
+        print(f"Cores '{cor}': novo total — {cor_obj.quantidade_cor_kg:.2f} kg")
+        session.commit()
 def upt_fio():
     cores_no_db = session.query(Cores).all()
     cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
