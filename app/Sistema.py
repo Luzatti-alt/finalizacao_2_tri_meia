@@ -27,7 +27,7 @@ def remove_cor():
   print("removendo a cor")
   cor_obj = session.query(Cores).filter_by(cor=nv_cor).first()
   if not cor_obj:
-    print(f" Cor «{nv_cor}» não encontrada no estoque.")
+    print(f"Cor «{nv_cor}» não encontrada no estoque.")
     return
   session.delete(cor_obj)
   session.commit()
@@ -77,30 +77,39 @@ def produzir_meia():
       print(f"→ Cor '{cor}': será usado aproximadamente {material_total_por_cor:.2f}g de lã.")
     print("\n✅ Produção estimada concluída.")
 def upt_fio():
-  cores_no_db = session.query(Cores.cor).all()
-  cores_disponiveis = [cor[0].lower() for cor in cores_no_db]
-  #pedir infos
-  tipo_upt = str(input("remover ou renovar estoque: ")).lower()
-  if tipo_upt not in ("remover", "adicionar"):
-        print("Opção inválida. Digite 'remover' ou 'adicionar'.")
+    cores_no_db = session.query(Cores).all()
+    cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
+
+    tipo_upt = input("remover ou renovar estoque: ").strip().lower()
+    if tipo_upt not in ("remover", "renovar"):
+        print("Opção inválida. Digite 'remover' ou 'renovar'")
         return
-  qual_upt = input("digite a cor da lã que será atualizada(1 por vez)")
-  #verificação
-  cores_invalidas = [cor for cor in qual_upt if cor not in cores_disponiveis]
-  if cores_invalidas:
-    print(f"não foi encontrado {qual_upt}")
-    return
-  else:
-    qnt_upt = float(input("digite o quanto será renovado/removido do estoque"))
-    if tipo_upt =="remover":
-      #adicionar a lógica e nn deixar ficar no negativo
-      print(f"removendo{qual_upt}em{qnt_upt}")
-      session.query(Cores).update(qual_upt.quantidade_cor_kg)#quantidadeFq
-      if qnt_upt < 0:
-        print("aa")
-        #cap para nn ficar no db com resultado negativo
-    elif tipo_upt == "adicionar":
-      print(f"adicionando{qual_upt}em{qnt_upt}")
+
+    qual_upt = input("digite a cor da lã que será atualizada (1 por vez): ").strip().lower()
+
+    if qual_upt not in cores_disponiveis:
+        print(f"Não foi encontrada a cor '{qual_upt}' no banco de dados.")
+        return
+
+    try:
+        qnt_upt = float(input("Digite o quanto será atualizado (em kg): "))
+    except ValueError:
+        print("Valor inválido. Digite um número válido.")
+        return
+
+    cor_obj = cores_disponiveis[qual_upt]
+
+    if tipo_upt == "remover":
+        if cor_obj.quantidade_cor_kg - qnt_upt < 0:
+            print(f"Erro: não é possível remover {qnt_upt}kg — só há {cor_obj.quantidade_cor_kg}kg em estoque.")
+            return
+        cor_obj.quantidade_cor_kg -= qnt_upt
+        print(f"Removido {qnt_upt}kg de '{qual_upt}'. Novo total: {cor_obj.quantidade_cor_kg:.2f}kg")
+    elif tipo_upt == "renovar":
+        cor_obj.quantidade_cor_kg += qnt_upt
+        print(f"Adicionado {qnt_upt}kg à cor '{qual_upt}'. Novo total: {cor_obj.quantidade_cor_kg:.2f}kg")
+
+    session.commit()
 
 def carregar():
   for i in range(0,5):
@@ -136,7 +145,7 @@ def Controle_fios():
           break
         case "desligar":
           on = 0
-          print("\n encerrando o programa")
+          print("\nencerrando o programa")
           exit()
           break
         case default:
