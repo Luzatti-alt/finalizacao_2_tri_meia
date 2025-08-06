@@ -9,6 +9,111 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 class PrototipoApp(App):
     def build(self):
+        confirmacao = ["sim", "s", "ss", "positivo", "afirmativo"]
+        def ver_estoque():
+            cores_no_db = session.query(Cores).all()
+            for cor in cores_no_db:
+                print(f"Cor: {cor.cor}\n Quantidade: {cor.quantidade_cor_kg}kg\n Disponível: {cor.disponivel}\n")
+
+        def add_cor():
+            self.pergunta = Label(text="Digite a nova cor a ser adicionada:", size_hint=(None, None), color=(1, 1, 1, 1))
+            existe = session.query(Cores).filter_by(cor=nv_cor).first()
+            self.pergunta = Label(text="Digite quantos kilos desta cor(somente o número):", size_hint=(None, None), color=(1, 1, 1, 1))
+            if existe:
+                self.grid.add_widget(Label(text="Cor já existe no sistema", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+            else:
+                session.add(Cores(cor=nv_cor, quantidade_cor_kg=qnt_cor, disponivel=True))
+                session.commit()
+                self.grid.add_widget(Label(text=f"adicionando a cor", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+        def remove_cor():
+            self.pergunta = Label(text="Digite a nova cor a ser removida:", size_hint=(None, None), color=(1, 1, 1, 1))
+            print("removendo a cor")
+            cor_obj = session.query(Cores).filter_by(cor=nv_cor).first()
+            if not cor_obj:
+                print(f"Cor «{nv_cor}» não encontrada no estoque.")
+                return
+            session.delete(cor_obj)
+            session.commit()
+
+        def produzir_meia():
+            cores_no_db = session.query(Cores.cor).all()
+            cores_disponiveis = [cor[0].lower() for cor in cores_no_db]
+            gauges_possiveis = [84, 96, 108, 120, 144]
+            self.pergunta = Label(text="Digite as cores a serem usadas (separe com vírgula):", size_hint=(None, None), color=(1, 1, 1, 1))
+            cores = [cor.strip().lower() for cor in qnts_mats.split(',')]
+            self.pergunta = Label(text=(f"Tem certeza dessas cores {cores}?(sim/não)"), size_hint=(None, None), color=(1, 1, 1, 1))
+            cores_invalidas = [cor for cor in cores if cor not in cores_disponiveis]
+            if cores_invalidas:
+                self.grid.add_widget(Label(text=f"As seguintes cores não estão no banco de dados: {cores_invalidas}", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+                return
+            else:
+                if qnts_mats_conf not in confirmacao:
+                    print("entendido, voltando ao menu principal")
+                    return
+                try:
+                    self.pergunta = Label(text="Digite o gauge da agulha (84,96,108,120,144)", size_hint=(None, None), color=(1, 1, 1, 1))
+                except ValueError:
+                    self.grid.add_widget(Label(text="Valor inválido para gauge. Deve ser um número.", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+                    return
+                if gauge_agulha not in gauges_possiveis:
+                    print("gauge desconhecido")
+                    return
+                self.pergunta = Label(text=(f"Será usado {gauge_agulha}G. Tem certeza?(sim/não):"), size_hint=(None, None), color=(1, 1, 1, 1))
+                if conf_gauge_agulha not in confirmacao:
+                    print("Confirmação recusada. Voltando ao menu principal.")
+                    return
+                try:
+                    self.pergunta = Label(text="Quantas meias deseja produzir?", size_hint=(None, None), color=(1, 1, 1, 1))
+                except ValueError:
+                    self.grid.add_widget(Label(text="Quantidade inválida", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+                    return
+                self.grid.add_widget(Label(text="iniciando produção da meia", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+
+                # DADOS FIXOS
+                gauge_base = 96
+                consumo_base = 50
+                fator_consumo = gauge_base / gauge_agulha
+                material_total_por_cor = consumo_base * fator_consumo * quantidade_meias
+
+                for cor in cores:
+                    self.grid.add_widget(Label(text=f"→ Cor: {cor} será usado aproximadamente {material_total_por_cor:.2f}g de lã", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+
+                self.pergunta = Label(text="Produção estimada concluída", size_hint=(None, None), color=(1, 1, 1, 1))
+                cores_no_db = session.query(Cores).all()
+                cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
+                for cor in cores:
+                    cor_obj = cores_disponiveis[cor]
+                    cor_obj.quantidade_cor_kg -= (material_total_por_cor / 1000)
+                    self.grid.add_widget(Label(text=f"Cores {cor}: novo total - {cor_obj.quantidade_cor_kg:.2f} kg", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+                    session.commit()
+
+        def upt_fio():
+            cores_no_db = session.query(Cores).all()
+            cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
+            self.pergunta = Label(text="remover ou renovar estoque:", size_hint=(None, None), color=(1, 1, 1, 1))
+            if tipo_upt not in ("remover", "renovar"):
+                self.grid.add_widget(Label(text="Opção inválida. Digite 'remover' ou 'renovar'", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+                return
+            self.pergunta = Label(text="Digite a cor da lã que será atualizada (1 por vez):", size_hint=(None, None), color=(1, 1, 1, 1))
+            if qual_upt not in cores_disponiveis:
+                self.grid.add_widget(Label(text=f"Não foi encontrada a cor {qual_upt} no banco de dados", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+                return
+            try:
+                self.pergunta = Label(text="Digite o quanto será atualizado(em kg):", size_hint=(None, None), color=(1, 1, 1, 1))
+            except ValueError:
+                self.grid.add_widget(Label(text="Valor inválido. Digite um número válido", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+                return
+            cor_obj = cores_disponiveis[qual_upt]
+            if tipo_upt == "remover":
+                if cor_obj.quantidade_cor_kg - qnt_upt < 0:
+                    self.grid.add_widget(Label(text=f"Erro: Não é possível remover {qnt_upt} kg, só há {cor_obj.quantidade_cor_kg} kg no estoque", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+                    return
+                cor_obj.quantidade_cor_kg -= qnt_upt
+                self.grid.add_widget(Label(text=f"Removido {qnt_upt} kg de {qual_upt}. Novo total: {cor_obj.quantidade_cor_kg:.2f}kg", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+            elif tipo_upt == "renovar":
+                cor_obj.quantidade_cor_kg += qnt_upt
+                self.grid.add_widget(Label(text=f"Adicionado {qnt_upt} kg da cor {qual_upt}. Novo total: {cor_obj.quantidade_cor_kg:.2f} kg", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+            session.commit()
         altura = Window.height
         largura = Window.width
         layout = FloatLayout()
@@ -66,6 +171,11 @@ class PrototipoApp(App):
         layout.add_widget(self.remover_cor)
         layout.add_widget(self.prod_meia)
         layout.add_widget(self.upt_cor)
+        self.estoque.bind(on_press=lambda instance: ver_estoque())
+        self.add_cor.bind(on_press=lambda instance: add_cor())
+        self.remover_cor.bind(on_press=lambda instance: remove_cor())
+        self.prod_meia.bind(on_press=lambda instance: produzir_meia())
+        self.upt_cor.bind(on_press=lambda instance: upt_fio())
         # Painel azul de fundo para scroll
         with layout.canvas.before:
             Color(0.1, 0.3, 0.8, 1)
@@ -74,8 +184,6 @@ class PrototipoApp(App):
         self.scroll = ScrollView(size_hint=(None, None))
         self.grid = GridLayout(cols=1, size_hint_y=None, padding=10, spacing=10)
         self.grid.bind(minimum_height=self.grid.setter("height"))
-        for i in range(20):
-            self.grid.add_widget(Label(text=f"Linha de informação {i+1}", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
         self.scroll.add_widget(self.grid)
         layout.add_widget(self.scroll)
         # Pergunta
