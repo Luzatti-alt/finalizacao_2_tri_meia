@@ -81,26 +81,20 @@ def produzir_meia():
 def upt_fio():
     cores_no_db = session.query(Cores).all()
     cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
-
     tipo_upt = input("remover ou renovar estoque: ").strip().lower()
     if tipo_upt not in ("remover", "renovar"):
         print("Opção inválida. Digite 'remover' ou 'renovar'")
         return
-
     qual_upt = input("digite a cor da lã que será atualizada (1 por vez): ").strip().lower()
-
     if qual_upt not in cores_disponiveis:
         print(f"Não foi encontrada a cor '{qual_upt}' no banco de dados.")
         return
-
     try:
         qnt_upt = float(input("Digite o quanto será atualizado (em kg): "))
     except ValueError:
         print("Valor inválido. Digite um número válido.")
         return
-
     cor_obj = cores_disponiveis[qual_upt]
-
     if tipo_upt == "remover":
         if cor_obj.quantidade_cor_kg - qnt_upt < 0:
             print(f"Erro: não é possível remover {qnt_upt}kg — só há {cor_obj.quantidade_cor_kg}kg em estoque.")
@@ -110,9 +104,7 @@ def upt_fio():
     elif tipo_upt == "renovar":
         cor_obj.quantidade_cor_kg += qnt_upt
         print(f"Adicionado {qnt_upt}kg à cor '{qual_upt}'. Novo total: {cor_obj.quantidade_cor_kg:.2f}kg")
-
     session.commit()
-
 def carregar():
   for i in range(0,5):
     print("\rcarregando dados.",end="")
@@ -154,4 +146,3 @@ def Controle_fios():
           print("algo é invalido")
 while on ==1:
  Controle_fios()
-
