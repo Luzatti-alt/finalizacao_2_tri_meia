@@ -1,3 +1,4 @@
+from db import *
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
@@ -13,8 +14,7 @@ class PrototipoApp(App):
         def ver_estoque():
             cores_no_db = session.query(Cores).all()
             for cor in cores_no_db:
-                print(f"Cor: {cor.cor}\n Quantidade: {cor.quantidade_cor_kg}kg\n Disponível: {cor.disponivel}\n")
-
+                self.grid.add_widget(Label(text=f"Cor: {cor.cor}\n Quantidade: {cor.quantidade_cor_kg}kg\n Disponível: {cor.disponivel}\n", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
         def add_cor():
             self.pergunta = Label(text="Digite a nova cor a ser adicionada:", size_hint=(None, None), color=(1, 1, 1, 1))
             existe = session.query(Cores).filter_by(cor=nv_cor).first()
@@ -30,11 +30,10 @@ class PrototipoApp(App):
             print("removendo a cor")
             cor_obj = session.query(Cores).filter_by(cor=nv_cor).first()
             if not cor_obj:
-                print(f"Cor «{nv_cor}» não encontrada no estoque.")
+                self.grid.add_widget(Label(text=f"Cor «{nv_cor}» não encontrada no estoque", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
                 return
             session.delete(cor_obj)
             session.commit()
-
         def produzir_meia():
             cores_no_db = session.query(Cores.cor).all()
             cores_disponiveis = [cor[0].lower() for cor in cores_no_db]
@@ -48,7 +47,7 @@ class PrototipoApp(App):
                 return
             else:
                 if qnts_mats_conf not in confirmacao:
-                    print("entendido, voltando ao menu principal")
+                    self.grid.add_widget(Label(text=f"entendido, voltando ao menu principal", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
                     return
                 try:
                     self.pergunta = Label(text="Digite o gauge da agulha (84,96,108,120,144)", size_hint=(None, None), color=(1, 1, 1, 1))
@@ -56,11 +55,11 @@ class PrototipoApp(App):
                     self.grid.add_widget(Label(text="Valor inválido para gauge. Deve ser um número.", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
                     return
                 if gauge_agulha not in gauges_possiveis:
-                    print("gauge desconhecido")
+                    self.grid.add_widget(Label(text=f"gauge desconhecido", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
                     return
                 self.pergunta = Label(text=(f"Será usado {gauge_agulha}G. Tem certeza?(sim/não):"), size_hint=(None, None), color=(1, 1, 1, 1))
                 if conf_gauge_agulha not in confirmacao:
-                    print("Confirmação recusada. Voltando ao menu principal.")
+                    self.grid.add_widget(Label(text=f"Confirmação recusada. Voltando ao menu principal", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
                     return
                 try:
                     self.pergunta = Label(text="Quantas meias deseja produzir?", size_hint=(None, None), color=(1, 1, 1, 1))
@@ -68,16 +67,13 @@ class PrototipoApp(App):
                     self.grid.add_widget(Label(text="Quantidade inválida", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
                     return
                 self.grid.add_widget(Label(text="iniciando produção da meia", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
-
                 # DADOS FIXOS
                 gauge_base = 96
                 consumo_base = 50
                 fator_consumo = gauge_base / gauge_agulha
                 material_total_por_cor = consumo_base * fator_consumo * quantidade_meias
-
                 for cor in cores:
                     self.grid.add_widget(Label(text=f"→ Cor: {cor} será usado aproximadamente {material_total_por_cor:.2f}g de lã", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
-
                 self.pergunta = Label(text="Produção estimada concluída", size_hint=(None, None), color=(1, 1, 1, 1))
                 cores_no_db = session.query(Cores).all()
                 cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
@@ -86,7 +82,6 @@ class PrototipoApp(App):
                     cor_obj.quantidade_cor_kg -= (material_total_por_cor / 1000)
                     self.grid.add_widget(Label(text=f"Cores {cor}: novo total - {cor_obj.quantidade_cor_kg:.2f} kg", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
                     session.commit()
-
         def upt_fio():
             cores_no_db = session.query(Cores).all()
             cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
@@ -166,6 +161,15 @@ class PrototipoApp(App):
             background_color=(0.2, 0.6, 0.9, 1),
             pos=(0, altura / 2 - 280)
         )
+        self.enviar = Button(
+            text='enviar',
+            size_hint=(None, None),
+            size=(300, 100),
+            background_normal="",
+            background_color=(0.2, 0.6, 0.9, 1),
+            pos=(0, altura / 2 - 280)
+        )
+        layout.add_widget(self.enviar)
         layout.add_widget(self.estoque)
         layout.add_widget(self.add_cor)
         layout.add_widget(self.remover_cor)
@@ -204,10 +208,12 @@ class PrototipoApp(App):
         self.prod_meia.pos = (0, altura / 2 - 160)
         self.upt_cor.pos = (0, altura / 2 - 280)
         # Pergunta e entrada lado a lado
+        self.enviar.pos = (largura - 125,altura/10)
+        self.enviar.size = (100,altura/10)
         self.pergunta.pos = (340, altura/8)
         self.pergunta.size = (largura - 360, altura/10+200)
         self.entrada.pos = (340, altura/10)
-        self.entrada.size = (largura - 360, altura/10)
+        self.entrada.size = (largura - 460, altura/10)
         # ScrollView
         scroll_y = self.entrada.pos[1] + self.entrada.height + 100
         scroll_height = altura - scroll_y - 80
