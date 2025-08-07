@@ -73,7 +73,145 @@ class PrototipoApp(App):
                     self.tipo_acao = ""
                     self.pergunta.text = ""
                     self.entrada.text = ""
+            if self.tipo_acao == "prod meia":
+    if self.state == 1:
+        self.pergunta.text = ""
+        cores_no_db = session.query(Cores.cor).all()
+        cores_disponiveis = [cor[0].lower() for cor in cores_no_db]
+        gauges_possiveis = [84, 96, 108, 120, 144]
 
+        self.pergunta = Label(
+            text="Digite as cores a serem usadas (separe com vírgula):",
+            size_hint=(None, None),
+            color=(1, 1, 1, 1)
+        )
+
+        qnts_mats = self.entrada.text
+        cores = [cor.strip().lower() for cor in qnts_mats.split(',')]
+        self.pergunta = Label(
+            text=(f"Tem certeza dessas cores {cores}?(sim/não)"),
+            size_hint=(None, None),
+            color=(1, 1, 1, 1)
+        )
+
+        cores_invalidas = [cor for cor in cores if cor not in cores_disponiveis]
+        qnts_mats_conf = self.entrada.text
+
+        if cores_invalidas:
+            self.grid.add_widget(Label(
+                text=f"As seguintes cores não estão no banco de dados: {cores_invalidas}",
+                size_hint_y=None,
+                height=30,
+                color=(1, 1, 1, 1)
+            ))
+            return
+        else:
+            if qnts_mats_conf not in confirmacao:
+                self.grid.add_widget(Label(
+                    text="Entendido, voltando ao menu principal",
+                    size_hint_y=None,
+                    height=30,
+                    color=(1, 1, 1, 1)
+                ))
+                return
+
+            try:
+                self.pergunta = Label(
+                    text="Digite o gauge da agulha (84,96,108,120,144)",
+                    size_hint=(None, None),
+                    color=(1, 1, 1, 1)
+                )
+                gauge_agulha = self.entrada.text
+            except ValueError:
+                self.grid.add_widget(Label(
+                    text="Valor inválido para gauge. Deve ser um número.",
+                    size_hint_y=None,
+                    height=30,
+                    color=(1, 1, 1, 1)
+                ))
+                return
+
+            if gauge_agulha not in gauges_possiveis:
+                self.grid.add_widget(Label(
+                    text="Gauge desconhecido",
+                    size_hint_y=None,
+                    height=30,
+                    color=(1, 1, 1, 1)
+                ))
+                return
+            else:
+                self.pergunta = Label(
+                    text=(f"Será usado {gauge_agulha}G. Tem certeza?(sim/não):"),
+                    size_hint=(None, None),
+                    color=(1, 1, 1, 1)
+                )
+                conf_gauge_agulha = self.entrada.text
+
+            if conf_gauge_agulha not in confirmacao:
+                self.grid.add_widget(Label(
+                    text="Confirmação recusada. Voltando ao menu principal",
+                    size_hint_y=None,
+                    height=30,
+                    color=(1, 1, 1, 1)
+                ))
+                return
+
+            try:
+                self.pergunta = Label(
+                    text="Quantas meias deseja produzir?",
+                    size_hint=(None, None),
+                    color=(1, 1, 1, 1)
+                )
+                quantidade_meias = self.entrada.text
+            except ValueError:
+                self.grid.add_widget(Label(
+                    text="Quantidade inválida",
+                    size_hint_y=None,
+                    height=30,
+                    color=(1, 1, 1, 1)
+                ))
+                return
+
+            self.grid.add_widget(Label(
+                text="Iniciando produção da meia",
+                size_hint_y=None,
+                height=30,
+                color=(1, 1, 1, 1)
+            ))
+
+            # DADOS FIXOS
+            gauge_base = 96
+            consumo_base = 50
+            fator_consumo = gauge_base / gauge_agulha
+            material_total_por_cor = consumo_base * fator_consumo * quantidade_meias
+
+            for cor in cores:
+                self.grid.add_widget(Label(
+                    text=f"→ Cor: {cor} será usado aproximadamente {material_total_por_cor:.2f}g de lã",
+                    size_hint_y=None,
+                    height=30,
+                    color=(1, 1, 1, 1)
+                ))
+
+            self.pergunta = Label(
+                text="Produção estimada concluída",
+                size_hint=(None, None),
+                color=(1, 1, 1, 1)
+            )
+
+            cores_no_db = session.query(Cores).all()
+            cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
+
+            for cor in cores:
+                cor_obj = cores_disponiveis[cor]
+                cor_obj.quantidade_cor_kg -= (material_total_por_cor / 1000)
+                self.grid.add_widget(Label(
+                    text=f"Cores {cor}: novo total - {cor_obj.quantidade_cor_kg:.2f} kg",
+                    size_hint_y=None,
+                    height=30,
+                    color=(1, 1, 1, 1)
+                ))
+                session.commit()
         def add_cor():
             self.pergunta.text = "Digite a nova cor a ser adicionada:"
             self.tipo_acao = "add_cor"
