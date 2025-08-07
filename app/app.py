@@ -10,9 +10,13 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 class PrototipoApp(App):
     #arrumado remover cor
+    # usar o state como guia para as acoes funcionar e un tipo_acao para agrantir que funcione(ideia de possivek correcao)
     #meio certo ver estoque(bug mais visual)
     #arrumar adicionar cor produzir meia e
     def build(self):
+        state = 0
+        def incrementar_state(instance):
+        	self.state += 1
         confirmacao = ["sim", "s", "ss", "positivo", "afirmativo"]
         def ver_estoque():
             self.pergunta.text = ""
@@ -202,6 +206,7 @@ class PrototipoApp(App):
         self.remover_cor.bind(on_press=lambda instance: remove_cor())
         self.prod_meia.bind(on_press=lambda instance: produzir_meia())
         self.upt_cor.bind(on_press=lambda instance: upt_fio())
+        self.enviar.bind(on_press=incrementar_state)
         # Painel azul de fundo para scroll
         with layout.canvas.before:
             Color(0.1, 0.3, 0.8, 1)
