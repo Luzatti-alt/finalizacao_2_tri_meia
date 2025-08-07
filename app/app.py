@@ -24,25 +24,54 @@ class PrototipoApp(App):
                 ))
 
         def ao_enviar(instance):
-            if self.tipo_acao == "add_cor":
-                if self.state == 1:
-                    nv_cor = self.entrada.text
-                    existe = session.query(Cores).filter_by(cor=nv_cor).first()
-                    if nv_cor != "":
-                        self.entrada.text = ""
-                        self.pergunta.text = "Digite quantos kilos desta cor (somente o número):"
-                        self.state = 2
-                elif self.state == 2:
-                    qnt_cor = self.entrada.text
-                    existe = session.query(Cores).filter_by(cor=nv_cor).first()
-                    if existe:
-                        self.grid.add_widget(Label(text="Cor já existe no sistema", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
-                    else:
-                        session.add(Cores(cor=nv_cor, quantidade_cor_kg=qnt_cor, disponivel=True))
-                        session.commit()
-                        self.grid.add_widget(Label(text="Adicionando a cor", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
-                    self.state = 0
+        	if self.tipo_acao == "add_cor":
+        		if self.state == 1:
+        			self.nv_cor = self.entrada.text.strip().lower()  # padroniza 
+        			if self.nv_cor == "":
+        			     self.pergunta.text = "Digite uma cor válida!"
+        			     return
+        			     existe = session.query(Cores).filter_by(cor=self.nv_cor).first()
+        			     if existe:
+        			         self.grid.add_widget(Label(text="Cor já existe no sistema",
+                    		 size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                    		 ))
+                    		 self.tipo_acao = ""
+                    		 self.state = 0
+                    		 self.pergunta.text = ""
+                    		 self.entrada.text = ""
+                    		 return
+            self.entrada.text = ""
+            self.pergunta.text = "Digite quantos quilos desta cor (somente número):"
+            self.state = 2
 
+        elif self.state == 2:
+            qnt_text = self.entrada.text.strip()
+            try:
+                self.qnt_cor = float(qnt_text)
+            except ValueError:
+                self.pergunta.text = "Quantidade inválida! Digite um número válido."
+                return
+
+            nova_cor = Cores(cor=self.nv_cor, quantidade_cor_kg=self.qnt_cor, disponivel=True)
+            session.add(nova_cor)
+            try:
+                session.commit()
+            except Exception as e:
+                session.rollback()
+                self.grid.add_widget(Label(
+                    text=f"Erro ao adicionar cor: {e}",
+                    size_hint_y=None, height=30, color=(1, 0, 0, 1)
+                ))
+                return
+
+            self.grid.add_widget(Label(
+                text=f"Cor '{self.nv_cor}' adicionada com {self.qnt_cor} kg.",
+                size_hint_y=None, height=30, color=(0, 1, 0, 1)
+            ))
+            self.state = 0
+            self.tipo_acao = ""
+            self.pergunta.text = ""
+            self.entrada.text = ""
         def add_cor():
             self.pergunta.text = "Digite a nova cor a ser adicionada:"
             self.tipo_acao = "add_cor"
