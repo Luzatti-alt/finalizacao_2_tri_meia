@@ -9,6 +9,9 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 class PrototipoApp(App):
+    #arrumado remover cor
+    #meio certo ver estoque(bug mais visual)
+    #arrumar adicionar cor produzir meia e
     def build(self):
         confirmacao = ["sim", "s", "ss", "positivo", "afirmativo"]
         def ver_estoque():
