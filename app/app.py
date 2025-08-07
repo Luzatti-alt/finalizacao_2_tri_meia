@@ -25,6 +25,7 @@ class PrototipoApp(App):
             nv_cor = self.entrada.text
             existe = session.query(Cores).filter_by(cor=nv_cor).first()
             if nv_cor != "":
+                self.entrada.text = ""
                 self.pergunta = Label(text="Digite quantos kilos desta cor(somente o número):", size_hint=(None, None), color=(1, 1, 1, 1))
                 qnt_cor = self.entrada.text
             if existe:
