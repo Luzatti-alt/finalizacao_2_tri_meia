@@ -19,11 +19,13 @@ class PrototipoApp(App):
         	self.state += 1
         confirmacao = ["sim", "s", "ss", "positivo", "afirmativo"]
         def ver_estoque():
-            self.pergunta.text = ""
+            self.grid.clear_widgets()
+            self.pergunta.text = "pergunta"
             cores_no_db = session.query(Cores).all()
             for cor in cores_no_db:
                 self.grid.add_widget(Label(text=f"Cor: {cor.cor}\n Quantidade: {cor.quantidade_cor_kg}kg\n Disponível: {cor.disponivel}\n", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
         def add_cor():
+            self.grid.clear_widgets()
             self.pergunta.text = ""
             self.pergunta = Label(text="Digite a nova cor a ser adicionada:", size_hint=(None, None), color=(1, 1, 1, 1))
             nv_cor = self.entrada.text
@@ -39,6 +41,7 @@ class PrototipoApp(App):
                 session.commit()
                 self.grid.add_widget(Label(text=f"adicionando a cor", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
         def remove_cor():
+            self.grid.clear_widgets()
             self.pergunta.text = ""
             self.pergunta = Label(text="Digite a nova cor a ser removida:", size_hint=(None, None), color=(1, 1, 1, 1))
             nv_cor = self.entrada.text
@@ -49,6 +52,7 @@ class PrototipoApp(App):
             session.delete(cor_obj)
             session.commit()
         def produzir_meia():
+            self.grid.clear_widgets()
             self.pergunta.text = ""
             cores_no_db = session.query(Cores.cor).all()
             cores_disponiveis = [cor[0].lower() for cor in cores_no_db]
@@ -104,6 +108,7 @@ class PrototipoApp(App):
                     self.grid.add_widget(Label(text=f"Cores {cor}: novo total - {cor_obj.quantidade_cor_kg:.2f} kg", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
                     session.commit()
         def upt_fio():
+            self.grid.clear_widgets()
             self.pergunta.text = ""
             cores_no_db = session.query(Cores).all()
             cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
