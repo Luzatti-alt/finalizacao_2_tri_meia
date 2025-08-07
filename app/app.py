@@ -98,11 +98,13 @@ class PrototipoApp(App):
                 self.grid.add_widget(Label(text="Opção inválida. Digite 'remover' ou 'renovar'", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
                 return
             self.pergunta = Label(text="Digite a cor da lã que será atualizada (1 por vez):", size_hint=(None, None), color=(1, 1, 1, 1))
+            qual_upt = self.entrada.text
             if qual_upt not in cores_disponiveis:
                 self.grid.add_widget(Label(text=f"Não foi encontrada a cor {qual_upt} no banco de dados", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
                 return
             try:
                 self.pergunta = Label(text="Digite o quanto será atualizado(em kg):", size_hint=(None, None), color=(1, 1, 1, 1))
+                qnt_upt = self.entrada.text
             except ValueError:
                 self.grid.add_widget(Label(text="Valor inválido. Digite um número válido", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
                 return
