@@ -31,16 +31,17 @@ class PrototipoApp(App):
                     if self.nv_cor == "":
                         self.pergunta.text = "Digite uma cor válida!"
                         return
-                        existe = session.query(Cores).filter_by(cor=self.nv_cor).first()
-                        if existe:
-                            self.grid.add_widget(Label(text="Cor já existe no sistema",
-                                size_hint_y=None, height=30, color=(1, 1, 1, 1)
-                            ))
-                            self.tipo_acao = ""
-                            self.state = 0
-                            self.pergunta.text = ""
-                            self.entrada.text = ""
-                            return
+                    existe = session.query(Cores).filter_by(cor=self.nv_cor).first()
+                    if existe:
+                        self.grid.add_widget(Label(
+                            text="Cor já existe no sistema",
+                            size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                        ))
+                        self.tipo_acao = ""
+                        self.state = 0
+                        self.pergunta.text = ""
+                        self.entrada.text = ""
+                        return
                     self.entrada.text = ""
                     self.pergunta.text = "Digite quantos quilos desta cor (somente número):"
                     self.state = 2
@@ -73,145 +74,147 @@ class PrototipoApp(App):
                     self.tipo_acao = ""
                     self.pergunta.text = ""
                     self.entrada.text = ""
+
             if self.tipo_acao == "prod meia":
-    if self.state == 1:
-        self.pergunta.text = ""
-        cores_no_db = session.query(Cores.cor).all()
-        cores_disponiveis = [cor[0].lower() for cor in cores_no_db]
-        gauges_possiveis = [84, 96, 108, 120, 144]
+                if self.state == 1:
+                    self.pergunta.text = ""
+                    cores_no_db = session.query(Cores.cor).all()
+                    cores_disponiveis = [cor[0].lower() for cor in cores_no_db]
+                    gauges_possiveis = [84, 96, 108, 120, 144]
 
-        self.pergunta = Label(
-            text="Digite as cores a serem usadas (separe com vírgula):",
-            size_hint=(None, None),
-            color=(1, 1, 1, 1)
-        )
+                    self.pergunta = Label(
+                        text="Digite as cores a serem usadas (separe com vírgula):",
+                        size_hint=(None, None),
+                        color=(1, 1, 1, 1)
+                    )
 
-        qnts_mats = self.entrada.text
-        cores = [cor.strip().lower() for cor in qnts_mats.split(',')]
-        self.pergunta = Label(
-            text=(f"Tem certeza dessas cores {cores}?(sim/não)"),
-            size_hint=(None, None),
-            color=(1, 1, 1, 1)
-        )
+                    qnts_mats = self.entrada.text
+                    cores = [cor.strip().lower() for cor in qnts_mats.split(',')]
+                    self.pergunta = Label(
+                        text=(f"Tem certeza dessas cores {cores}?(sim/não)"),
+                        size_hint=(None, None),
+                        color=(1, 1, 1, 1)
+                    )
 
-        cores_invalidas = [cor for cor in cores if cor not in cores_disponiveis]
-        qnts_mats_conf = self.entrada.text
+                    cores_invalidas = [cor for cor in cores if cor not in cores_disponiveis]
+                    qnts_mats_conf = self.entrada.text
 
-        if cores_invalidas:
-            self.grid.add_widget(Label(
-                text=f"As seguintes cores não estão no banco de dados: {cores_invalidas}",
-                size_hint_y=None,
-                height=30,
-                color=(1, 1, 1, 1)
-            ))
-            return
-        else:
-            if qnts_mats_conf not in confirmacao:
-                self.grid.add_widget(Label(
-                    text="Entendido, voltando ao menu principal",
-                    size_hint_y=None,
-                    height=30,
-                    color=(1, 1, 1, 1)
-                ))
-                return
+                    if cores_invalidas:
+                        self.grid.add_widget(Label(
+                            text=f"As seguintes cores não estão no banco de dados: {cores_invalidas}",
+                            size_hint_y=None,
+                            height=30,
+                            color=(1, 1, 1, 1)
+                        ))
+                        return
+                    else:
+                        if qnts_mats_conf not in confirmacao:
+                            self.grid.add_widget(Label(
+                                text="Entendido, voltando ao menu principal",
+                                size_hint_y=None,
+                                height=30,
+                                color=(1, 1, 1, 1)
+                            ))
+                            return
 
-            try:
-                self.pergunta = Label(
-                    text="Digite o gauge da agulha (84,96,108,120,144)",
-                    size_hint=(None, None),
-                    color=(1, 1, 1, 1)
-                )
-                gauge_agulha = self.entrada.text
-            except ValueError:
-                self.grid.add_widget(Label(
-                    text="Valor inválido para gauge. Deve ser um número.",
-                    size_hint_y=None,
-                    height=30,
-                    color=(1, 1, 1, 1)
-                ))
-                return
+                        try:
+                            self.pergunta = Label(
+                                text="Digite o gauge da agulha (84,96,108,120,144)",
+                                size_hint=(None, None),
+                                color=(1, 1, 1, 1)
+                            )
+                            gauge_agulha = self.entrada.text
+                        except ValueError:
+                            self.grid.add_widget(Label(
+                                text="Valor inválido para gauge. Deve ser um número.",
+                                size_hint_y=None,
+                                height=30,
+                                color=(1, 1, 1, 1)
+                            ))
+                            return
 
-            if gauge_agulha not in gauges_possiveis:
-                self.grid.add_widget(Label(
-                    text="Gauge desconhecido",
-                    size_hint_y=None,
-                    height=30,
-                    color=(1, 1, 1, 1)
-                ))
-                return
-            else:
-                self.pergunta = Label(
-                    text=(f"Será usado {gauge_agulha}G. Tem certeza?(sim/não):"),
-                    size_hint=(None, None),
-                    color=(1, 1, 1, 1)
-                )
-                conf_gauge_agulha = self.entrada.text
+                        if gauge_agulha not in gauges_possiveis:
+                            self.grid.add_widget(Label(
+                                text="Gauge desconhecido",
+                                size_hint_y=None,
+                                height=30,
+                                color=(1, 1, 1, 1)
+                            ))
+                            return
+                        else:
+                            self.pergunta = Label(
+                                text=(f"Será usado {gauge_agulha}G. Tem certeza?(sim/não):"),
+                                size_hint=(None, None),
+                                color=(1, 1, 1, 1)
+                            )
+                            conf_gauge_agulha = self.entrada.text
 
-            if conf_gauge_agulha not in confirmacao:
-                self.grid.add_widget(Label(
-                    text="Confirmação recusada. Voltando ao menu principal",
-                    size_hint_y=None,
-                    height=30,
-                    color=(1, 1, 1, 1)
-                ))
-                return
+                        if conf_gauge_agulha not in confirmacao:
+                            self.grid.add_widget(Label(
+                                text="Confirmação recusada. Voltando ao menu principal",
+                                size_hint_y=None,
+                                height=30,
+                                color=(1, 1, 1, 1)
+                            ))
+                            return
 
-            try:
-                self.pergunta = Label(
-                    text="Quantas meias deseja produzir?",
-                    size_hint=(None, None),
-                    color=(1, 1, 1, 1)
-                )
-                quantidade_meias = self.entrada.text
-            except ValueError:
-                self.grid.add_widget(Label(
-                    text="Quantidade inválida",
-                    size_hint_y=None,
-                    height=30,
-                    color=(1, 1, 1, 1)
-                ))
-                return
+                        try:
+                            self.pergunta = Label(
+                                text="Quantas meias deseja produzir?",
+                                size_hint=(None, None),
+                                color=(1, 1, 1, 1)
+                            )
+                            quantidade_meias = self.entrada.text
+                        except ValueError:
+                            self.grid.add_widget(Label(
+                                text="Quantidade inválida",
+                                size_hint_y=None,
+                                height=30,
+                                color=(1, 1, 1, 1)
+                            ))
+                            return
 
-            self.grid.add_widget(Label(
-                text="Iniciando produção da meia",
-                size_hint_y=None,
-                height=30,
-                color=(1, 1, 1, 1)
-            ))
+                        self.grid.add_widget(Label(
+                            text="Iniciando produção da meia",
+                            size_hint_y=None,
+                            height=30,
+                            color=(1, 1, 1, 1)
+                        ))
 
-            # DADOS FIXOS
-            gauge_base = 96
-            consumo_base = 50
-            fator_consumo = gauge_base / gauge_agulha
-            material_total_por_cor = consumo_base * fator_consumo * quantidade_meias
+                        # DADOS FIXOS
+                        gauge_base = 96
+                        consumo_base = 50
+                        fator_consumo = gauge_base / gauge_agulha
+                        material_total_por_cor = consumo_base * fator_consumo * quantidade_meias
 
-            for cor in cores:
-                self.grid.add_widget(Label(
-                    text=f"→ Cor: {cor} será usado aproximadamente {material_total_por_cor:.2f}g de lã",
-                    size_hint_y=None,
-                    height=30,
-                    color=(1, 1, 1, 1)
-                ))
+                        for cor in cores:
+                            self.grid.add_widget(Label(
+                                text=f"→ Cor: {cor} será usado aproximadamente {material_total_por_cor:.2f}g de lã",
+                                size_hint_y=None,
+                                height=30,
+                                color=(1, 1, 1, 1)
+                            ))
 
-            self.pergunta = Label(
-                text="Produção estimada concluída",
-                size_hint=(None, None),
-                color=(1, 1, 1, 1)
-            )
+                        self.pergunta = Label(
+                            text="Produção estimada concluída",
+                            size_hint=(None, None),
+                            color=(1, 1, 1, 1)
+                        )
 
-            cores_no_db = session.query(Cores).all()
-            cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
+                        cores_no_db = session.query(Cores).all()
+                        cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
 
-            for cor in cores:
-                cor_obj = cores_disponiveis[cor]
-                cor_obj.quantidade_cor_kg -= (material_total_por_cor / 1000)
-                self.grid.add_widget(Label(
-                    text=f"Cores {cor}: novo total - {cor_obj.quantidade_cor_kg:.2f} kg",
-                    size_hint_y=None,
-                    height=30,
-                    color=(1, 1, 1, 1)
-                ))
-                session.commit()
+                        for cor in cores:
+                            cor_obj = cores_disponiveis[cor]
+                            cor_obj.quantidade_cor_kg -= (material_total_por_cor / 1000)
+                            self.grid.add_widget(Label(
+                                text=f"Cores {cor}: novo total - {cor_obj.quantidade_cor_kg:.2f} kg",
+                                size_hint_y=None,
+                                height=30,
+                                color=(1, 1, 1, 1)
+                            ))
+                            session.commit()
+
         def add_cor():
             self.pergunta.text = "Digite a nova cor a ser adicionada:"
             self.tipo_acao = "add_cor"
@@ -222,7 +225,10 @@ class PrototipoApp(App):
             nv_cor = self.entrada.text
             cor_obj = session.query(Cores).filter_by(cor=nv_cor).first()
             if not cor_obj:
-                self.grid.add_widget(Label(text=f"Cor «{nv_cor}» não encontrada no estoque", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+                self.grid.add_widget(Label(
+                    text=f"Cor «{nv_cor}» não encontrada no estoque",
+                    size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                ))
                 return
             session.delete(cor_obj)
             session.commit()
@@ -239,29 +245,47 @@ class PrototipoApp(App):
             self.pergunta.text = "remover ou renovar estoque:"
             tipo_upt = self.entrada.text
             if tipo_upt not in ("remover", "renovar"):
-                self.grid.add_widget(Label(text="Opção inválida. Digite 'remover' ou 'renovar'", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+                self.grid.add_widget(Label(
+                    text="Opção inválida. Digite 'remover' ou 'renovar'",
+                    size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                ))
                 return
             self.pergunta.text = "Digite a cor da lã que será atualizada (1 por vez):"
             qual_upt = self.entrada.text
             if qual_upt not in cores_disponiveis:
-                self.grid.add_widget(Label(text=f"Não foi encontrada a cor {qual_upt} no banco de dados", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+                self.grid.add_widget(Label(
+                    text=f"Não foi encontrada a cor {qual_upt} no banco de dados",
+                    size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                ))
                 return
             try:
                 self.pergunta.text = "Digite o quanto será atualizado(em kg):"
                 qnt_upt = float(self.entrada.text)
             except ValueError:
-                self.grid.add_widget(Label(text="Valor inválido. Digite um número válido", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+                self.grid.add_widget(Label(
+                    text="Valor inválido. Digite um número válido",
+                    size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                ))
                 return
             cor_obj = cores_disponiveis[qual_upt]
             if tipo_upt == "remover":
                 if cor_obj.quantidade_cor_kg - qnt_upt < 0:
-                    self.grid.add_widget(Label(text=f"Erro: Não é possível remover {qnt_upt} kg, só há {cor_obj.quantidade_cor_kg} kg no estoque", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+                    self.grid.add_widget(Label(
+                        text=f"Erro: Não é possível remover {qnt_upt} kg, só há {cor_obj.quantidade_cor_kg} kg no estoque",
+                        size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                    ))
                     return
                 cor_obj.quantidade_cor_kg -= qnt_upt
-                self.grid.add_widget(Label(text=f"Removido {qnt_upt} kg de {qual_upt}. Novo total: {cor_obj.quantidade_cor_kg:.2f}kg", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+                self.grid.add_widget(Label(
+                    text=f"Removido {qnt_upt} kg de {qual_upt}. Novo total: {cor_obj.quantidade_cor_kg:.2f}kg",
+                    size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                ))
             elif tipo_upt == "renovar":
                 cor_obj.quantidade_cor_kg += qnt_upt
-                self.grid.add_widget(Label(text=f"Adicionado {qnt_upt} kg da cor {qual_upt}. Novo total: {cor_obj.quantidade_cor_kg:.2f} kg", size_hint_y=None, height=30, color=(1, 1, 1, 1)))
+                self.grid.add_widget(Label(
+                    text=f"Adicionado {qnt_upt} kg da cor {qual_upt}. Novo total: {cor_obj.quantidade_cor_kg:.2f} kg",
+                    size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                ))
             session.commit()
 
         altura = Window.height
@@ -341,4 +365,5 @@ class PrototipoApp(App):
         self.scroll.pos = (340, scroll_y)
         self.painel_fundo.pos = self.scroll.pos
         self.painel_fundo.size = self.scroll.size
+
 PrototipoApp().run()
