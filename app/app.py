@@ -174,7 +174,6 @@ class PrototipoApp(App):
             if self.tipo_acao == "atualizar":
                 cores_no_db = session.query(Cores).all()
                 cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
-
                 if self.state == 1:
                     self.pergunta.text = "remover ou renovar estoque:"
                     self.state = 2
@@ -239,6 +238,37 @@ class PrototipoApp(App):
                     self.pergunta.text = ""
                     self.entrada.text = ""
                     return
+            elif self.tipo_acao == "remover_cor":
+                if self.state == 1:
+                    nv_cor = self.entrada.text.strip().lower()
+                    cor_obj = session.query(Cores).filter_by(cor=nv_cor).first()
+                    if not cor_obj:
+                        self.grid.add_widget(Label(text=f"Cor «{nv_cor}» não encontrada no estoque",size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                        ))
+                        self.state = 0
+                        self.tipo_acao = ""
+                        self.pergunta.text = ""
+                        self.entrada.text = ""
+                        return
+                    else:
+                        self.cor_para_remover = cor_obj
+                        self.pergunta.text = f"Tem certeza que deseja remover a cor '{nv_cor}'? (sim/não)"
+                        self.state = 2
+                        self.entrada.text = ""
+                        return
+                elif self.state == 2:
+                    if self.entrada.text.strip().lower() in confirmacao:
+                        session.delete(self.cor_para_remover)
+                        session.commit()
+                        self.grid.add_widget(Label(text=f"Cor «{self.cor_para_remover.cor}» removida com sucesso!",size_hint_y=None, height=30, color=(0, 1, 0, 1)))
+                    else:
+                        self.grid.add_widget(Label(text="Remoção cancelada.",size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                        ))
+                        self.state = 0
+                        self.tipo_acao = ""
+                        self.pergunta.text = ""
+                        self.entrada.text = ""
+                        return
 
         def add_cor():
             self.pergunta.text = "Digite a nova cor a ser adicionada:"
@@ -247,16 +277,8 @@ class PrototipoApp(App):
 
         def remove_cor():
             self.pergunta.text = "Digite a nova cor a ser removida:"
-            nv_cor = self.entrada.text
-            cor_obj = session.query(Cores).filter_by(cor=nv_cor).first()
-            if not cor_obj:
-                self.grid.add_widget(Label(
-                    text=f"Cor «{nv_cor}» não encontrada no estoque",
-                    size_hint_y=None, height=30, color=(1, 1, 1, 1)
-                ))
-                return
-            session.delete(cor_obj)
-            session.commit()
+            self.tipo_acao = "remover_cor"
+            self.state = 1
 
         def produzir_meia():
             self.pergunta.text = "Digite as cores a serem usadas (separe com vírgula):"
