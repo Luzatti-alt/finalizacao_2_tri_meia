@@ -72,19 +72,17 @@ class PrototipoApp(App):
                     self.pergunta.text = ""
                     self.entrada.text = ""
 
-            if self.tipo_acao == "prod meia":
+            if self.tipo_acao == "prod_meia":
                 if self.state == 1:
                     # Pergunta cores
                     self.pergunta.text = "Digite as cores a serem usadas (separe com vírgula):"
                     self.state = 2
                     return
-
                 elif self.state == 2:
                     # Processa cores
                     cores_no_db = session.query(Cores.cor).all()
                     cores_disponiveis = [cor[0].lower() for cor in cores_no_db]
                     self.cores_escolhidas = [c.strip().lower() for c in self.entrada.text.split(',')]
-
                     cores_invalidas = [c for c in self.cores_escolhidas if c not in cores_disponiveis]
                     if cores_invalidas:
                         self.grid.add_widget(Label(
@@ -94,13 +92,11 @@ class PrototipoApp(App):
                         self.state = 0
                         self.tipo_acao = ""
                         return
-
                     self.pergunta.text = f"Tem certeza dessas cores {self.cores_escolhidas}? (sim/não)"
                     self.state = 3
                     return
-
                 elif self.state == 3:
-                    if self.entrada.text.lower() != "sim":
+                    if self.entrada.text.lower() not in confirmacao:
                         self.grid.add_widget(Label(
                             text="Entendido, voltando ao menu principal",
                             size_hint_y=None, height=30, color=(1,1,1,1)
@@ -108,11 +104,10 @@ class PrototipoApp(App):
                         self.state = 0
                         self.tipo_acao = ""
                         return
-
-                    self.pergunta.text = "Digite o gauge da agulha (84, 96, 108, 120, 144):"
-                    self.state = 4
-                    return
-
+                    else:
+                        self.pergunta.text = "Digite o gauge da agulha (84, 96, 108, 120, 144):"
+                        self.state = 4
+                        return
                 elif self.state == 4:
                     try:
                         self.gauge_agulha = int(self.entrada.text)
@@ -122,20 +117,17 @@ class PrototipoApp(App):
                             size_hint_y=None, height=30, color=(1,1,1,1)
                         ))
                         return
-
                     if self.gauge_agulha not in [84, 96, 108, 120, 144]:
                         self.grid.add_widget(Label(
                             text="Gauge desconhecido",
                             size_hint_y=None, height=30, color=(1,1,1,1)
                         ))
                         return
-
                     self.pergunta.text = f"Será usado {self.gauge_agulha}G. Tem certeza? (sim/não)"
                     self.state = 5
                     return
-
                 elif self.state == 5:
-                    if self.entrada.text.lower() != "sim":
+                    if self.entrada.text.lower() not in confirmacao:
                         self.grid.add_widget(Label(
                             text="Confirmação recusada. Voltando ao menu principal",
                             size_hint_y=None, height=30, color=(1,1,1,1)
@@ -143,11 +135,9 @@ class PrototipoApp(App):
                         self.state = 0
                         self.tipo_acao = ""
                         return
-
                     self.pergunta.text = "Quantas meias deseja produzir?"
                     self.state = 6
                     return
-
                 elif self.state == 6:
                     try:
                         quantidade_meias = int(self.entrada.text)
@@ -157,19 +147,16 @@ class PrototipoApp(App):
                             size_hint_y=None, height=30, color=(1,1,1,1)
                         ))
                         return
-
                     # Cálculo de material
                     gauge_base = 96
                     consumo_base = 50
                     fator_consumo = gauge_base / self.gauge_agulha
                     material_total_por_cor = consumo_base * fator_consumo * quantidade_meias
-
                     for cor in self.cores_escolhidas:
                         self.grid.add_widget(Label(
                             text=f"→ Cor: {cor} será usado aproximadamente {material_total_por_cor:.2f}g de lã",
                             size_hint_y=None, height=30, color=(1, 1, 1, 1)
                         ))
-
                     # Atualiza banco
                     cores_no_db = session.query(Cores).all()
                     cores_disponiveis = {c.cor.lower(): c for c in cores_no_db}
@@ -177,14 +164,81 @@ class PrototipoApp(App):
                         cor_obj = cores_disponiveis[cor]
                         cor_obj.quantidade_cor_kg -= (material_total_por_cor / 1000)
                         session.commit()
-
                     self.grid.add_widget(Label(
                         text="Produção estimada concluída",
                         size_hint_y=None, height=30, color=(0, 1, 0, 1)
                     ))
-
                     self.state = 0
                     self.tipo_acao = ""
+
+            if self.tipo_acao == "atualizar":
+                cores_no_db = session.query(Cores).all()
+                cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
+
+                if self.state == 1:
+                    self.pergunta.text = "remover ou renovar estoque:"
+                    self.state = 2
+                    return
+                elif self.state == 2:
+                    tipo_upt = self.entrada.text.lower()
+                    if tipo_upt not in ("remover", "renovar"):
+                        self.grid.add_widget(Label(
+                            text="Opção inválida. Digite 'remover' ou 'renovar'",
+                            size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                        ))
+                        return
+                    self.tipo_upt = tipo_upt  # guarda para próximo passo
+                    self.pergunta.text = "Digite a cor da lã que será atualizada (1 por vez):"
+                    self.state = 3
+                    self.entrada.text = ""
+                    return
+                elif self.state == 3:
+                    qual_upt = self.entrada.text.lower().strip()
+                    if qual_upt not in cores_disponiveis:
+                        self.grid.add_widget(Label(
+                            text=f"Não foi encontrada a cor {qual_upt} no banco de dados",
+                            size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                        ))
+                        return
+                    self.qual_upt = qual_upt
+                    self.pergunta.text = "Digite o quanto será atualizado (em kg):"
+                    self.state = 4
+                    self.entrada.text = ""
+                    return
+                elif self.state == 4:
+                    try:
+                        qnt_upt = float(self.entrada.text)
+                    except ValueError:
+                        self.grid.add_widget(Label(
+                            text="Valor inválido. Digite um número válido",
+                            size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                        ))
+                        return
+                    cor_obj = cores_disponiveis[self.qual_upt]
+                    if self.tipo_upt == "remover":
+                        if cor_obj.quantidade_cor_kg - qnt_upt < 0:
+                            self.grid.add_widget(Label(
+                                text=f"Erro: Não é possível remover {qnt_upt} kg, só há {cor_obj.quantidade_cor_kg} kg no estoque",
+                                size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                            ))
+                            return
+                        cor_obj.quantidade_cor_kg -= qnt_upt
+                        self.grid.add_widget(Label(
+                            text=f"Removido {qnt_upt} kg de {self.qual_upt}. Novo total: {cor_obj.quantidade_cor_kg:.2f}kg",
+                            size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                        ))
+                    elif self.tipo_upt == "renovar":
+                        cor_obj.quantidade_cor_kg += qnt_upt
+                        self.grid.add_widget(Label(
+                            text=f"Adicionado {qnt_upt} kg da cor {self.qual_upt}. Novo total: {cor_obj.quantidade_cor_kg:.2f} kg",
+                            size_hint_y=None, height=30, color=(1, 1, 1, 1)
+                        ))
+                    session.commit()
+                    self.state = 0
+                    self.tipo_acao = ""
+                    self.pergunta.text = ""
+                    self.entrada.text = ""
+                    return
 
         def add_cor():
             self.pergunta.text = "Digite a nova cor a ser adicionada:"
@@ -210,54 +264,9 @@ class PrototipoApp(App):
             self.state = 1
 
         def upt_fio():
-            self.pergunta.text = ""
-            cores_no_db = session.query(Cores).all()
-            cores_disponiveis = {cor.cor.lower(): cor for cor in cores_no_db}
             self.pergunta.text = "remover ou renovar estoque:"
-            tipo_upt = self.entrada.text
-            if tipo_upt not in ("remover", "renovar"):
-                self.grid.add_widget(Label(
-                    text="Opção inválida. Digite 'remover' ou 'renovar'",
-                    size_hint_y=None, height=30, color=(1, 1, 1, 1)
-                ))
-                return
-            self.pergunta.text = "Digite a cor da lã que será atualizada (1 por vez):"
-            qual_upt = self.entrada.text
-            if qual_upt not in cores_disponiveis:
-                self.grid.add_widget(Label(
-                    text=f"Não foi encontrada a cor {qual_upt} no banco de dados",
-                    size_hint_y=None, height=30, color=(1, 1, 1, 1)
-                ))
-                return
-            try:
-                self.pergunta.text = "Digite o quanto será atualizado(em kg):"
-                qnt_upt = float(self.entrada.text)
-            except ValueError:
-                self.grid.add_widget(Label(
-                    text="Valor inválido. Digite um número válido",
-                    size_hint_y=None, height=30, color=(1, 1, 1, 1)
-                ))
-                return
-            cor_obj = cores_disponiveis[qual_upt]
-            if tipo_upt == "remover":
-                if cor_obj.quantidade_cor_kg - qnt_upt < 0:
-                    self.grid.add_widget(Label(
-                        text=f"Erro: Não é possível remover {qnt_upt} kg, só há {cor_obj.quantidade_cor_kg} kg no estoque",
-                        size_hint_y=None, height=30, color=(1, 1, 1, 1)
-                    ))
-                    return
-                cor_obj.quantidade_cor_kg -= qnt_upt
-                self.grid.add_widget(Label(
-                    text=f"Removido {qnt_upt} kg de {qual_upt}. Novo total: {cor_obj.quantidade_cor_kg:.2f}kg",
-                    size_hint_y=None, height=30, color=(1, 1, 1, 1)
-                ))
-            elif tipo_upt == "renovar":
-                cor_obj.quantidade_cor_kg += qnt_upt
-                self.grid.add_widget(Label(
-                    text=f"Adicionado {qnt_upt} kg da cor {qual_upt}. Novo total: {cor_obj.quantidade_cor_kg:.2f} kg",
-                    size_hint_y=None, height=30, color=(1, 1, 1, 1)
-                ))
-            session.commit()
+            self.tipo_acao = "atualizar"
+            self.state = 1            
 
         altura = Window.height
         largura = Window.width
@@ -311,7 +320,6 @@ class PrototipoApp(App):
 
         self.entrada = TextInput(hint_text="Digite aqui...", size_hint=(None, None), background_color=(0, 0, 0, 1), foreground_color=(1, 1, 1, 1), cursor_color=(1, 1, 1, 1))
         layout.add_widget(self.entrada)
-
         Window.bind(size=self.reposicionar_elementos)
         self.reposicionar_elementos()
         return layout
