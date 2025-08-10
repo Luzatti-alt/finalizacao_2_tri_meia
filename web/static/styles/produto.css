@@ -1,0 +1,23 @@
+body{
+  background: black;
+}
+.produto{
+  background: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 400px;
+  height: 300px;
+}
+.compras{
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 400px;
+  height: 100px;
+}
+.botao{
+  width: 150px;
+  height: 100px;
+}
