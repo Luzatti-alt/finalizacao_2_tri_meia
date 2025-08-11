@@ -8,7 +8,7 @@ def home():
 	return render_template("home.html")#retornar o arquivo html de home
 @app.route("/info")
 def info():
-    return render_template("informação.html")
+    return render_template("informação.html",usuarios=usuarios)
 @app.route("/produto")
 def produto():
     return render_template("produto.html")
