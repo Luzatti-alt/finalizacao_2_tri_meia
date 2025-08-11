@@ -1,15 +1,25 @@
 logo{
   display:block;
   font-weight: bold;
-  border-style: groove;
-  border-radius: 15px;
-  width:420px;
+  width:100%;
   color:white;
-  font-size: 500%;
-  background: lightblue;
+  background: lightblue;  
+}
+/* dvh para todos os tipos de dispositivos */
+
+.nome_empresa{
+  font-size: 400%;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  padding: 15px;
 }
 .user_info{
-  font.size:150%;
+  font-size:150%;
+  padding: 15px;
+  display: flex;
+  align-items: right;
+  justify-content: right;
 }
 body{
   background: black;
@@ -17,10 +27,12 @@ body{
 area_produtos{
   display: block;
   background: lightgray;
+  width: 70dvh;
   font-size: 200%;
 }
 .display_prods{
   background: gray;
   display:list-item;
-  height: 400px;
+  width: 70dvh;
+  height: 50dvh;
 }
