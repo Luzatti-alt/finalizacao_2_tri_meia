@@ -49,24 +49,24 @@ body {
   justify-content: center;
   align-items: flex-start; /* para texto começar no topo */
   font-size: 250%;
-  width: 400px;
-  height: 300px;
+  width: 80dvh;
+  height: 30dvh;
   overflow-x: hidden;
   overflow-y: auto; /* scroll vertical */
 }
 
 .adm_controle {
-  width: 380px;
-  height: 50px;
+  width: 80dvh;
+  height: 5dvh;
   font-size: 150%;
   padding: 5px;
   white-space: normal; /* "wrap" não existe, o correto é normal ou nowrap */
 }
 .botao{
-  width: 120px;
-  height: 60px;
+  width: 20dvh;
+  height: 6dvh;
 }
 .entrada{
-  width: 225px;
-  height: 60px;
+  width: 58dvh;
+  height: 6dvh;
 }
