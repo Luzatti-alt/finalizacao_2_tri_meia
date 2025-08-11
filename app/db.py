@@ -17,5 +17,11 @@ class Cores(Base):
     self.cor = cor
     self.quantidade_cor_kg = quantidade_cor_kg
     self.disponivel = disponivel
+class usuarios(Base):
+  __tablename__ = 'Usuarios'
+  id = Column("id",Integer,primary_key=True, autoincrement=True)#chave principal & qnd add uma nova cor ele ja cria um novo id
+  User = Column("Usuario",String)
+  senha = Column("senha",String)
+  cargo = Column(String)
 #criar o arquivo do db com o que precisa
 Base.metadata.create_all(bind=db)#ele cria o arquivo do db
