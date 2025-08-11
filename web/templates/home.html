@@ -8,20 +8,24 @@
 </head>
 <body>
     <logo>
-    Brisk
-  </logo>
-  <div class="user_info">
-    <a href="{{ url_for('info') }}">usuario informação</a>
+      <div class="nome_empresa">
+        Brisk
       </div>
+      <div class="user_info">
+        <a href="{{ url_for('info') }}">usuario informação</a>
+          </div>
+  </logo>
   <br>
-  <area_produtos>
-    produtos
-    <div class="display_prods">
-      <a href="{{ url_for('produto') }}">produto</a>
-      produto 2
-      produto 3
-    </div>
-  </area_produtos> 
+  <center>
+    <area_produtos>
+      produtos
+      <div class="display_prods">
+        <a href="{{ url_for('produto') }}">produto</a>
+        produto 2
+        produto 3
+      </div>
+    </area_produtos>
+  </center>
 </body>
 </html>
 
