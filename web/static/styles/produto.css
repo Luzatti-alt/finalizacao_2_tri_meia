@@ -6,6 +6,10 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.round {
+  border-radius: 100%;
+}
+
 main {
   margin: auto;
   width: 80%;
@@ -17,14 +21,26 @@ section#product-content {
   gap: 50px;
 }
 
-div#info {
+#display > img {
+  border-radius: 10px;
+}
+
+#info {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-div#avaliacoes {
-  font-size: 2em;
+#info > div {
+  font-weight: bold;
+}
+
+#info p {
+  font-weight: normal;
+}
+
+#info > span {
+  font-size: 2.5em;
 }
 
 span#preco {
@@ -33,6 +49,23 @@ span#preco {
   color: #2b7099;
 }
 
-div#cor, div#tamanho, div#quantidade {
-  font-weight: bold;
+#cores > button {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+}
+
+#tamanhos > button {
+  width: 100px;
+  height: 80px;
+  border-radius: 5px;
+}
+
+#tamanhos > button > span {
+  display: block;
+}
+
+#quantidade > button {
+  width: 25px;
+  height: 25px;
 }
