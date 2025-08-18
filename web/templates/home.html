@@ -3,29 +3,64 @@
 <html>
 <head>
   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
-  <title>Loja Brisk</title>
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}"> -->
+  <link rel="stylesheet" href="../static/styles/home.css">
+  <link rel="icon" href="https://meiasbrisk.com.br/wp-content/uploads/2018/10/favicon.png" type="image/png" sizes="16x16">
+  <title>Meias Brisk</title>
 </head>
 <body>
-    <logo>
-      <div class="nome_empresa">
-        Brisk
+  <header>
+    <section id="header-nav">
+      <div class="logo">
+          <img src="../static/imagens/Logo-Brisk.png" alt="">
       </div>
-      <div class="user_info">
-        <a href="{{ url_for('info') }}">usuario informação</a>
-          </div>
-  </logo>
-  <br>
-  <center>
-    <area_produtos>
-      produtos
-      <div class="display_prods">
-        <a href="{{ url_for('produto') }}">produto</a>
-        produto 2
-        produto 3
+          <input type="text" name="" id="" placeholder="O que você procura?">
+          <p><img src="../static/imagens/contact.svg" alt="" class="img-size"> Contato</p>
+          <a href="{{ url_for('info') }}"><img src="../static/imagens/user.svg" alt="" class="img-size"> Seja bem vindo!</a>
+          <img src="../static/imagens/carrinho.svg" alt=""class="img-size">
+    </section>
+    <nav>
+        <a href="#">Masculino</a>
+        <a href="#">Feminino</a>
+        <a href="#">Esporte</a>
+        <a href="#">Casual</a>
+        <a href="#">Comfort</a>
+        <a href="#">Infantil</a>
+    </nav>
+  </header>
+  <main>
+    <div id="banner">
+      
+    </div>
+    <section id="produto">
+      <div class="produto-meia">
+        <img src="../static/imagens/meia-placeholder.png" alt="">
+        <p>Meia</p>
+        <span>R$ ??,??</span>
       </div>
-    </area_produtos>
-  </center>
+      <div class="produto-meia">
+        <img src="../static/imagens/meia-placeholder.png" alt="">
+        <p>Meia</p>
+        <span>R$ ??,??</span>
+      </div>
+      <div class="produto-meia">
+        <img src="../static/imagens/meia-placeholder.png" alt="">
+        <p>Meia</p>
+        <span>R$ ??,??</span>
+      </div>
+      <div class="produto-meia">
+        <img src="../static/imagens/meia-placeholder.png" alt="">
+        <p>Meia</p>
+        <span>R$ ??,??</span>
+      </div>
+    </section>
+  </main>
+    <br>
+    <footer>
+      <img src="../static/imagens/logo-footer.png" alt="">
+      <p>Redesign feito por João Gabriel Kosctiuk e Fellipe Lingenover Sumida.</p>
+      <p>@2021 BRISK - Primeiros Passos. Todos os direitos reservados.</p>
+    </footer>
 </body>
 </html>
 
