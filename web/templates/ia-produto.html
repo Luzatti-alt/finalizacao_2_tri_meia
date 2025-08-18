@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meias Running Pro - SockStyle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        .image-gallery img {
+            transition: transform 0.3s ease;
+        }
+        
+        .image-gallery img:hover {
+            transform: scale(1.05);
+        }
+        
+        .size-option {
+            transition: all 0.3s ease;
+        }
+        
+        .size-option.selected {
+            background-color: #7c3aed;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .color-option {
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+        
+        .color-option.selected {
+            border-color: #7c3aed;
+            transform: scale(1.1);
+        }
+        
+        .quantity-btn {
+            transition: all 0.2s ease;
+        }
+        
+        .quantity-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .main-image {
+            transition: opacity 0.3s ease;
+        }
+        
+        .review-stars {
+            color: #fbbf24;
+        }
+        
+        .breadcrumb a:hover {
+            color: #7c3aed;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="#" class="text-2xl font-bold text-purple-600">🧦 SockStyle</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#" class="text-gray-500 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Início</a>
+                        <a href="#" class="text-gray-500 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Produtos</a>
+                        <a href="#" class="text-gray-500 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Sobre</a>
+                        <a href="#" class="text-gray-500 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Contato</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="cart-btn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        🛒 Carrinho (<span id="cart-count">0</span>)
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="breadcrumb flex items-center space-x-2 text-sm text-gray-500">
+            <a href="#" class="hover:text-purple-600 transition-colors">Início</a>
+            <span>›</span>
+            <a href="#" class="hover:text-purple-600 transition-colors">Produtos</a>
+            <span>›</span>
+            <a href="#" class="hover:text-purple-600 transition-colors">Esportivas</a>
+            <span>›</span>
+            <span class="text-gray-900">Meias Running Pro</span>
+        </div>
+    </nav>
+
+    <!-- Product Details -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid lg:grid-cols-2 gap-12">
+            
+            <!-- Image Gallery -->
+            <div class="space-y-4">
+                <!-- Main Image -->
+                <div class="aspect-square bg-gradient-to-br from-red-400 to-pink-500 rounded-xl overflow-hidden">
+                    <img id="main-image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23ef4444'/%3E%3Ctext x='200' y='220' font-size='120' text-anchor='middle' fill='white'%3E🧦%3C/text%3E%3C/svg%3E" 
+                         alt="Meias Running Pro" class="w-full h-full object-cover main-image">
+                </div>
+                
+                <!-- Thumbnail Gallery -->
+                <div class="grid grid-cols-4 gap-4 image-gallery">
+                    <div class="aspect-square bg-gradient-to-br from-red-400 to-pink-500 rounded-lg overflow-hidden cursor-pointer" 
+                         onclick="changeMainImage('red')">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23ef4444'/%3E%3Ctext x='50' y='60' font-size='30' text-anchor='middle' fill='white'%3E🧦%3C/text%3E%3C/svg%3E" 
+                             alt="Vermelho" class="w-full h-full object-cover">
+                    </div>
+                    <div class="aspect-square bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg overflow-hidden cursor-pointer"
+                         onclick="changeMainImage('blue')">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%233b82f6'/%3E%3Ctext x='50' y='60' font-size='30' text-anchor='middle' fill='white'%3E🧦%3C/text%3E%3C/svg%3E" 
+                             alt="Azul" class="w-full h-full object-cover">
+                    </div>
+                    <div class="aspect-square bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg overflow-hidden cursor-pointer"
+                         onclick="changeMainImage('green')">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2310b981'/%3E%3Ctext x='50' y='60' font-size='30' text-anchor='middle' fill='white'%3E🧦%3C/text%3E%3C/svg%3E" 
+                             alt="Verde" class="w-full h-full object-cover">
+                    </div>
+                    <div class="aspect-square bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg overflow-hidden cursor-pointer"
+                         onclick="changeMainImage('black')">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23374151'/%3E%3Ctext x='50' y='60' font-size='30' text-anchor='middle' fill='white'%3E🧦%3C/text%3E%3C/svg%3E" 
+                             alt="Preto" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="space-y-6">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">Meias Running Pro</h1>
+                    <p class="text-lg text-gray-600">Tecnologia anti-odor e absorção de impacto para corredores</p>
+                </div>
+
+                <!-- Rating -->
+                <div class="flex items-center space-x-2">
+                    <div class="review-stars text-xl">⭐⭐⭐⭐⭐</div>
+                    <span class="text-gray-600">(127 avaliações)</span>
+                    <a href="#reviews" class="text-purple-600 hover:text-purple-700 text-sm underline">Ver avaliações</a>
+                </div>
+
+                <!-- Price -->
+                <div class="flex items-center space-x-4">
+                    <span class="text-3xl font-bold text-purple-600">R$ 35,90</span>
+                    <span class="text-lg text-gray-500 line-through">R$ 49,90</span>
+                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm font-medium">28% OFF</span>
+                </div>
+
+                <!-- Color Selection -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-3">Cor: <span id="selected-color">Vermelho</span></h3>
+                    <div class="flex space-x-3">
+                        <div class="color-option selected w-12 h-12 bg-gradient-to-br from-red-400 to-pink-500 rounded-full cursor-pointer" 
+                             data-color="Vermelho" onclick="selectColor(this, 'Vermelho', 'red')"></div>
+                        <div class="color-option w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full cursor-pointer" 
+                             data-color="Azul" onclick="selectColor(this, 'Azul', 'blue')"></div>
+                        <div class="color-option w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full cursor-pointer" 
+                             data-color="Verde" onclick="selectColor(this, 'Verde', 'green')"></div>
+                        <div class="color-option w-12 h-12 bg-gradient-to-br from-gray-600 to-gray-800 rounded-full cursor-pointer" 
+                             data-color="Preto" onclick="selectColor(this, 'Preto', 'black')"></div>
+                    </div>
+                </div>
+
+                <!-- Size Selection -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-3">Tamanho: <span id="selected-size">Selecione</span></h3>
+                    <div class="grid grid-cols-4 gap-3">
+                        <button class="size-option border-2 border-gray-300 py-3 px-4 rounded-lg text-center font-medium hover:border-purple-500" 
+                                data-size="P (34-36)" onclick="selectSize(this, 'P (34-36)')">P<br><span class="text-xs">34-36</span></button>
+                        <button class="size-option border-2 border-gray-300 py-3 px-4 rounded-lg text-center font-medium hover:border-purple-500" 
+                                data-size="M (37-39)" onclick="selectSize(this, 'M (37-39)')">M<br><span class="text-xs">37-39</span></button>
+                        <button class="size-option border-2 border-gray-300 py-3 px-4 rounded-lg text-center font-medium hover:border-purple-500" 
+                                data-size="G (40-42)" onclick="selectSize(this, 'G (40-42)')">G<br><span class="text-xs">40-42</span></button>
+                        <button class="size-option border-2 border-gray-300 py-3 px-4 rounded-lg text-center font-medium hover:border-purple-500" 
+                                data-size="GG (43-45)" onclick="selectSize(this, 'GG (43-45)')">GG<br><span class="text-xs">43-45</span></button>
+                    </div>
+                </div>
+
+                <!-- Quantity -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-3">Quantidade</h3>
+                    <div class="flex items-center space-x-4">
+                        <button class="quantity-btn bg-gray-200 hover:bg-gray-300 w-10 h-10 rounded-full flex items-center justify-center font-bold" 
+                                onclick="changeQuantity(-1)">-</button>
+                        <span id="quantity" class="text-xl font-semibold w-8 text-center">1</span>
+                        <button class="quantity-btn bg-gray-200 hover:bg-gray-300 w-10 h-10 rounded-full flex items-center justify-center font-bold" 
+                                onclick="changeQuantity(1)">+</button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="space-y-4">
+                    <button id="add-to-cart" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-4 px-6 rounded-lg text-lg font-semibold transition-colors">
+                        Adicionar ao Carrinho
+                    </button>
+                    <button class="w-full bg-yellow-400 hover:bg-yellow-500 text-purple-900 py-4 px-6 rounded-lg text-lg font-semibold transition-colors">
+                        Comprar Agora
+                    </button>
+                    <button class="w-full border-2 border-purple-600 text-purple-600 hover:bg-purple-50 py-4 px-6 rounded-lg text-lg font-semibold transition-colors">
+                        ❤️ Adicionar aos Favoritos
+                    </button>
+                </div>
+
+                <!-- Shipping Info -->
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">📦 Informações de Entrega</h4>
+                    <div class="space-y-1 text-sm text-gray-600">
+                        <p>🚚 Frete grátis para compras acima de R$ 99</p>
+                        <p>⚡ Entrega expressa em até 2 dias úteis</p>
+                        <p>🔄 Troca grátis em até 30 dias</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Details Tabs -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="border-b border-gray-200">
+            <nav class="flex space-x-8">
+                <button class="tab-btn border-b-2 border-purple-600 text-purple-600 py-4 px-1 text-sm font-medium" 
+                        onclick="showTab('description')">Descrição</button>
+                <button class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 py-4 px-1 text-sm font-medium" 
+                        onclick="showTab('specifications')">Especificações</button>
+                <button class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 py-4 px-1 text-sm font-medium" 
+                        onclick="showTab('reviews')">Avaliações</button>
+            </nav>
+        </div>
+
+        <div class="py-8">
+            <!-- Description Tab -->
+            <div id="description-tab" class="tab-content">
+                <div class="prose max-w-none">
+                    <h3 class="text-xl font-semibold mb-4">Sobre as Meias Running Pro</h3>
+                    <p class="text-gray-600 mb-4">
+                        As Meias Running Pro foram desenvolvidas especificamente para corredores que buscam máximo desempenho e conforto. 
+                        Com tecnologia anti-odor avançada e sistema de absorção de impacto, elas proporcionam a experiência perfeita para seus treinos e competições.
+                    </p>
+                    <h4 class="text-lg font-semibold mb-3">Características Principais:</h4>
+                    <ul class="list-disc list-inside space-y-2 text-gray-600">
+                        <li>Tecnologia anti-odor que mantém os pés frescos por mais tempo</li>
+                        <li>Sistema de absorção de impacto na região do calcanhar</li>
+                        <li>Tecido respirável que facilita a ventilação</li>
+                        <li>Reforço nas áreas de maior atrito</li>
+                        <li>Compressão graduada para melhor circulação</li>
+                        <li>Costuras planas para evitar irritações</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Specifications Tab -->
+            <div id="specifications-tab" class="tab-content hidden">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">Composição</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• 65% Poliéster</li>
+                            <li>• 20% Algodão</li>
+                            <li>• 10% Elastano</li>
+                            <li>• 5% Fibras especiais anti-odor</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">Cuidados</h3>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• Lavar à máquina em água fria</li>
+                            <li>• Não usar alvejante</li>
+                            <li>• Secar à sombra</li>
+                            <li>• Não passar ferro</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews Tab -->
+            <div id="reviews-tab" class="tab-content hidden">
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xl font-semibold">Avaliações dos Clientes</h3>
+                        <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm transition-colors">
+                            Escrever Avaliação
+                        </button>
+                    </div>
+                    
+                    <!-- Review Item -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <div class="flex items-center space-x-4 mb-3">
+                            <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-semibold">M</div>
+                            <div>
+                                <p class="font-semibold">Maria Silva</p>
+                                <div class="flex items-center space-x-2">
+                                    <span class="review-stars">⭐⭐⭐⭐⭐</span>
+                                    <span class="text-gray-500 text-sm">há 2 dias</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">
+                            Excelente qualidade! Uso para corrida e realmente não sinto odor mesmo após treinos longos. 
+                            O conforto é incrível e não machuca os pés. Super recomendo!
+                        </p>
+                    </div>
+
+                    <!-- Review Item -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <div class="flex items-center space-x-4 mb-3">
+                            <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">J</div>
+                            <div>
+                                <p class="font-semibold">João Santos</p>
+                                <div class="flex items-center space-x-2">
+                                    <span class="review-stars">⭐⭐⭐⭐⭐</span>
+                                    <span class="text-gray-500 text-sm">há 1 semana</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">
+                            Comprei 3 pares e estou muito satisfeito. A absorção de impacto realmente funciona, 
+                            sinto menos dor nos pés após os treinos. Entrega foi super rápida também.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="bg-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-8">Produtos Relacionados</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Related Product 1 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <div class="h-48 bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center">
+                        <div class="text-6xl">🧦</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold mb-2">Meias Fitness Max</h3>
+                        <p class="text-gray-600 text-sm mb-2">Compressão graduada</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R$ 32,90</span>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded text-sm transition-colors">
+                                Ver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Product 2 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <div class="h-48 bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center">
+                        <div class="text-6xl">🧦</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold mb-2">Meias Trail Pro</h3>
+                        <p class="text-gray-600 text-sm mb-2">Para trilhas e aventuras</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R$ 38,90</span>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded text-sm transition-colors">
+                                Ver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Product 3 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <div class="h-48 bg-gradient-to-br from-green-400 to-teal-500 flex items-center justify-center">
+                        <div class="text-6xl">🧦</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold mb-2">Meias Recovery</h3>
+                        <p class="text-gray-600 text-sm mb-2">Recuperação pós-treino</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R$ 42,90</span>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded text-sm transition-colors">
+                                Ver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Product 4 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    <div class="h-48 bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center">
+                        <div class="text-6xl">🧦</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold mb-2">Meias Marathon</h3>
+                        <p class="text-gray-600 text-sm mb-2">Para longas distâncias</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-bold text-purple-600">R$ 45,90</span>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded text-sm transition-colors">
+                                Ver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="text-2xl font-bold text-purple-400 mb-4">🧦 SockStyle</div>
+                    <p class="text-gray-400">Meias premium para todos os momentos da sua vida.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Atendimento</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Central de Ajuda</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Trocas e Devoluções</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Frete Grátis</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Pagamento</h3>
+                    <p class="text-gray-400 mb-2">Aceitamos:</p>
+                    <div class="flex space-x-2">
+                        <span class="bg-gray-700 px-2 py-1 rounded text-xs">💳 Cartão</span>
+                        <span class="bg-gray-700 px-2 py-1 rounded text-xs">📱 PIX</span>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Redes Sociais</h3>
+                    <div class="flex space-x-4">
+                        <button class="bg-purple-600 hover:bg-purple-700 p-2 rounded-lg transition-colors">📘</button>
+                        <button class="bg-purple-600 hover:bg-purple-700 p-2 rounded-lg transition-colors">📷</button>
+                        <button class="bg-purple-600 hover:bg-purple-700 p-2 rounded-lg transition-colors">🐦</button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 SockStyle. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let selectedSize = '';
+        let selectedColor = 'Vermelho';
+        let quantity = 1;
+
+        // Update cart count on page load
+        updateCartCount();
+
+        // Color selection
+        function selectColor(element, colorName, colorKey) {
+            document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedColor = colorName;
+            document.getElementById('selected-color').textContent = colorName;
+            changeMainImage(colorKey);
+        }
+
+        // Size selection
+        function selectSize(element, size) {
+            document.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedSize = size;
+            document.getElementById('selected-size').textContent = size;
+        }
+
+        // Quantity change
+        function changeQuantity(delta) {
+            const newQuantity = quantity + delta;
+            if (newQuantity >= 1 && newQuantity <= 10) {
+                quantity = newQuantity;
+                document.getElementById('quantity').textContent = quantity;
+            }
+        }
+
+        // Change main image
+        function changeMainImage(color) {
+            const colors = {
+                'red': '#ef4444',
+                'blue': '#3b82f6',
+                'green': '#10b981',
+                'black': '#374151'
+            };
+            
+            const mainImage = document.getElementById('main-image');
+            const newSrc = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='${encodeURIComponent(colors[color])}'/%3E%3Ctext x='200' y='220' font-size='120' text-anchor='middle' fill='white'%3E🧦%3C/text%3E%3C/svg%3E`;
+            
+            mainImage.style.opacity = '0.5';
+            setTimeout(() => {
+                mainImage.src = newSrc;
+                mainImage.style.opacity = '1';
+            }, 150);
+        }
+
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-purple-600', 'text-purple-600');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            event.target.classList.remove('border-transparent', 'text-gray-500');
+            event.target.classList.add('border-purple-600', 'text-purple-600');
+        }
+
+        // Add to cart
+        document.getElementById('add-to-cart').addEventListener('click', function() {
+            if (!selectedSize) {
+                alert('Por favor, selecione um tamanho antes de adicionar ao carrinho.');
+                return;
+            }
+
+            const product = {
+                id: Date.now(),
+                name: 'Meias Running Pro',
+                color: selectedColor,
+                size: selectedSize,
+                quantity: quantity,
+                price: 35.90,
+                image: 'red' // simplified for demo
+            };
+
+            cart.push(product);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+
+            // Visual feedback
+            this.textContent = 'Adicionado ao Carrinho! ✓';
+            this.classList.add('bg-green-600');
+            this.classList.remove('bg-purple-600');
+
+            setTimeout(() => {
+                this.textContent = 'Adicionar ao Carrinho';
+                this.classList.remove('bg-green-600');
+                this.classList.add('bg-purple-600');
+            }, 2000);
+        });
+
+        // Update cart count
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').textContent = totalItems;
+        }
+
+        // Cart button click
+        document.getElementById('cart-btn').addEventListener('click', function() {
+            if (cart.length === 0) {
+                alert('Seu carrinho está vazio! Adicione alguns produtos primeiro.');
+            } else {
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+                alert(`Carrinho (${itemCount} itens)\nTotal: R$ ${total.toFixed(2).replace('.', ',')}\n\nFuncionalidade de checkout em desenvolvimento!`);
+            }
+        });
+
+        // Buy now button
+        document.querySelector('.bg-yellow-400').addEventListener('click', function() {
+            if (!selectedSize) {
+                alert('Por favor, selecione um tamanho antes de comprar.');
+                return;
+            }
+            alert('Redirecionando para o checkout... Esta funcionalidade estará disponível em breve!');
+        });
+
+        // Favorites button
+        document.querySelector('.border-purple-600').addEventListener('click', function() {
+            this.innerHTML = this.innerHTML.includes('❤️') ? '💜 Adicionado aos Favoritos' : '❤️ Adicionar aos Favoritos';
+            
+            setTimeout(() => {
+                this.innerHTML = '❤️ Adicionar aos Favoritos';
+            }, 2000);
+        });
+
+        // Related products
+        document.querySelectorAll('section:last-of-type button').forEach(btn => {
+            if (btn.textContent.trim() === 'Ver') {
+                btn.addEventListener('click', function() {
+                    alert('Carregando página do produto... Esta funcionalidade estará disponível em breve!');
+                });
+            }
+        });
+
+        // Write review button
+        document.querySelector('#reviews-tab button').addEventListener('click', function() {
+            alert('Funcionalidade de avaliação em desenvolvimento! Em breve você poderá compartilhar sua experiência.');
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'971150c4f3098dd8',t:'MTc1NTUxOTEwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
