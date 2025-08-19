@@ -6,11 +6,13 @@
     box-sizing: border-box;
 }
 body{
-  font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 :root{
     --cor1: ;
 }
+
+/*Header*/
 
 header input{
     height: 40px;
@@ -29,10 +31,27 @@ section#header-nav{
     padding: 10px;
 }
 section#header-nav img.img-size{
-  width: 30px;
+     width: 30px;
 }
 div.logo > img{
     height: 60px;
+}
+div#contato{
+    display: flex;
+    align-items: center;
+}
+div#contato > a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+div#carrinho{
+    display: flex;
+    align-items: center;
+}
+div#carrinho > a{
+    text-decoration: none;
+    color: black;
 }
 nav{
     padding: 10px;
@@ -52,13 +71,77 @@ div#banner{
   width: 100%;
   height: 300px;
 }
+
+/*Main*/
+h1{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #2a9baa;
+  font-weight: bold;
+  margin-top: 15px;
+  font-size: 2.5em;
+}
+h1::before, h1::after{
+  content: "";
+  flex: 1;
+  border-bottom: 2px solid #2a9baa;
+  margin: 0 10px;
+  min-width: 10px; 
+  max-width: 300px;
+}
 section#produto{
     display: grid;
     width: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 5px;
-    margin: auto;
+    justify-items: center; 
+    align-items: center;
 }
+div.produto-meia{
+  margin: 5px;
+  width: 200px;
+  text-align: center;
+}
+div.produto-meia:hover{
+   transform: scale(1.05);
+   box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.295);
+   transition: transform 0.3s ease-in-out;
+}
+div.produto-meia > p, span{
+  font-weight: bold;
+  color: #2a9baa;
+  margin: 5px 0px;
+}
+div.produto-meia > img{
+  width: 250px;
+  height: 200px;
+}
+div.produto-meia > a{
+  display: block;
+  text-align: center;
+  color: white;
+  text-decoration: none;
+  background-color: #2a9baa;
+  padding: 15px 30px;
+  margin-top: 5px;
+  border-radius: 0px 0px 5px 5px;
+}
+div#layout-garantia{
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 5px;
+  justify-items: center; 
+  align-items: center;
+  text-align: center;
+}
+div.garantia p{
+  color: gray;
+}
+/*Footer*/
+
 footer{
   background-color: #2a9baa;
   padding: 20px;
