@@ -21,7 +21,7 @@ class PrototipoApp(App):
             for cor in cores_no_db:
                 self.grid.add_widget(Label(
                     text=f"Cor: {cor.cor}\n Quantidade: {cor.quantidade_cor_kg}kg\n Disponível: {cor.disponivel}",
-                    size_hint_y=None, height=95, color=(1, 1, 1, 1)
+                    size_hint_y=None, height=140, color=(1, 1, 1, 1)
                 ))
 
         def ao_enviar(instance):
@@ -161,13 +161,23 @@ class PrototipoApp(App):
                     cores_no_db = session.query(Cores).all()
                     cores_disponiveis = {c.cor.lower(): c for c in cores_no_db}
                     for cor in self.cores_escolhidas:
-                        cor_obj = cores_disponiveis[cor]
-                        cor_obj.quantidade_cor_kg -= (material_total_por_cor / 1000)
-                        session.commit()
-                    self.grid.add_widget(Label(
-                        text="Produção estimada concluída",
-                        size_hint_y=None, height=30, color=(0, 1, 0, 1)
-                    ))
+                    	cor_obj = cores_disponiveis[cor]
+                    	material_kg = material_total_por_cor / 1000
+                    	if cor_obj.quantidade_cor_kg >= material_kg:
+                    		cor_obj.quantidade_cor_kg -= material_kg
+                    		self.grid.add_widget(Label(
+                    		text=f"Produção estimada concluída para {cor}",
+                    		size_hint_y=None,
+                    		height=30,
+                    		color=(0, 1, 0, 1)))
+                    	else:
+                    		self.grid.add_widget(Label(
+                    		text=f"Não há lã suficiente para a cor {cor} (precisa de {material_kg:.2f}kg, disponível {cor_obj.quantidade_cor_kg:.2f}kg)",
+                    		size_hint_y=None,
+                    		height=30,
+                    		color=(1, 0, 0, 1)
+                    		))
+                    		session.commit()
                     self.state = 0
                     self.tipo_acao = ""
 
