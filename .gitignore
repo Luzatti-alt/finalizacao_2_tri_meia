@@ -1,4 +1,4 @@
 .env
 Meia_controle_fios.db
 pycache/
-__pycache--/
+__pycache__/
