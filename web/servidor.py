@@ -13,7 +13,7 @@ def info():
 def produto():
     return render_template("produto.html")
 @app.route("/carrinho")
-def produto():
+def carrinho():
     return render_template("carrinho.html")
 @app.route("/adm")
 def adm():
