@@ -12,6 +12,9 @@ def info():
 @app.route("/produto")
 def produto():
     return render_template("produto.html")
+@app.route("/carrinho")
+def produto():
+    return render_template("carrinho.html")
 @app.route("/adm")
 def adm():
     return render_template("adm.html",Cores=Cores,usuarios=usuarios)
