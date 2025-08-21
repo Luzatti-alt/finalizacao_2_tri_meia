@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SockStyle - Meias Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .sock-pattern {
+            background-image: 
+                radial-gradient(circle at 25% 25%, #f3f4f6 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, #e5e7eb 2px, transparent 2px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold text-purple-600">🧦 SockStyle</div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#" class="text-gray-900 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Início</a>
+                        <a href="#produtos" class="text-gray-500 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Produtos</a>
+                        <a href="#sobre" class="text-gray-500 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Sobre</a>
+                        <a href="#contato" class="text-gray-500 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">Contato</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        🛒 Carrinho (0)
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    Meias Premium para<br>
+                    <span class="text-yellow-300">Todos os Momentos</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-purple-100 max-w-3xl mx-auto">
+                    Descubra nossa coleção exclusiva de meias confortáveis, duráveis e estilosas. 
+                    Qualidade premium para seus pés.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="bg-yellow-400 hover:bg-yellow-500 text-purple-900 px-8 py-4 rounded-lg text-lg font-semibold transition-colors">
+                        Ver Coleção
+                    </button>
+                    <button class="border-2 border-white text-white hover:bg-white hover:text-purple-600 px-8 py-4 rounded-lg text-lg font-semibold transition-colors">
+                        Saiba Mais
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Por que escolher SockStyle?</h2>
+                <p class="text-lg text-gray-600">Qualidade e conforto em cada detalhe</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-6 card-hover bg-gray-50 rounded-xl">
+                    <div class="text-4xl mb-4">🌟</div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900">Qualidade Premium</h3>
+                    <p class="text-gray-600">Materiais selecionados e acabamento impecável para máxima durabilidade.</p>
+                </div>
+                <div class="text-center p-6 card-hover bg-gray-50 rounded-xl">
+                    <div class="text-4xl mb-4">☁️</div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900">Conforto Absoluto</h3>
+                    <p class="text-gray-600">Tecnologia avançada para manter seus pés secos e confortáveis o dia todo.</p>
+                </div>
+                <div class="text-center p-6 card-hover bg-gray-50 rounded-xl">
+                    <div class="text-4xl mb-4">🎨</div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900">Design Exclusivo</h3>
+                    <p class="text-gray-600">Estampas únicas e cores vibrantes para expressar sua personalidade.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Preview -->
+    <section id="produtos" class="py-16 sock-pattern">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Produtos em Destaque</h2>
+                <p class="text-lg text-gray-600">Conheça alguns dos nossos modelos mais populares</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="h-48 bg-gradient-to-br from-red-400 to-pink-500 flex items-center justify-center">
+                        <div class="text-6xl">🧦</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Meias Esportivas</h3>
+                        <p class="text-gray-600 mb-4">Perfeitas para atividades físicas com tecnologia anti-odor.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-purple-600">R$ 29,90</span>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
+                                Comprar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="h-48 bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center">
+                        <div class="text-6xl">🧦</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Meias Sociais</h3>
+                        <p class="text-gray-600 mb-4">Elegância e sofisticação para o ambiente profissional.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-purple-600">R$ 24,90</span>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
+                                Comprar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="h-48 bg-gradient-to-br from-green-400 to-teal-500 flex items-center justify-center">
+                        <div class="text-6xl">🧦</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Meias Casuais</h3>
+                        <p class="text-gray-600 mb-4">Conforto e estilo para o dia a dia com estampas divertidas.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-2xl font-bold text-purple-600">R$ 19,90</span>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
+                                Comprar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-12">
+                <button class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors">
+                    Ver Todos os Produtos
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-16 bg-purple-600 text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-4">Fique por dentro das novidades!</h2>
+            <p class="text-xl mb-8 text-purple-100">Receba ofertas exclusivas e seja o primeiro a conhecer nossos lançamentos.</p>
+            <div class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                <input type="email" placeholder="Seu melhor e-mail" class="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                <button class="bg-yellow-400 hover:bg-yellow-500 text-purple-900 px-6 py-3 rounded-lg font-semibold transition-colors">
+                    Inscrever-se
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="text-2xl font-bold text-purple-400 mb-4">🧦 SockStyle</div>
+                    <p class="text-gray-400">Meias premium para todos os momentos da sua vida.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Produtos</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Meias Esportivas</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Meias Sociais</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Meias Casuais</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Coleção Infantil</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Atendimento</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Central de Ajuda</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Trocas e Devoluções</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Frete Grátis</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contato</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Redes Sociais</h3>
+                    <div class="flex space-x-4">
+                        <button class="bg-purple-600 hover:bg-purple-700 p-2 rounded-lg transition-colors">📘</button>
+                        <button class="bg-purple-600 hover:bg-purple-700 p-2 rounded-lg transition-colors">📷</button>
+                        <button class="bg-purple-600 hover:bg-purple-700 p-2 rounded-lg transition-colors">🐦</button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 SockStyle. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Newsletter subscription
+        document.querySelector('footer button').addEventListener('click', function() {
+            const email = document.querySelector('input[type="email"]').value;
+            if (email) {
+                alert('Obrigado por se inscrever! Em breve você receberá nossas novidades.');
+                document.querySelector('input[type="email"]').value = '';
+            } else {
+                alert('Por favor, insira um e-mail válido.');
+            }
+        });
+
+        // Product purchase buttons
+        document.querySelectorAll('.bg-purple-600').forEach(button => {
+            if (button.textContent.includes('Comprar')) {
+                button.addEventListener('click', function() {
+                    alert('Produto adicionado ao carrinho! 🛒');
+                });
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9710d6fca550228d',t:'MTc1NTUxNDExNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

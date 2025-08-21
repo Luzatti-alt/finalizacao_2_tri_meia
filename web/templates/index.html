@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}"> -->
+  <link rel="stylesheet" href="../static/styles/home.css">
+  <link rel="icon" href="https://meiasbrisk.com.br/wp-content/uploads/2018/10/favicon.png" type="image/png" sizes="16x16">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>Meias Brisk - Ousadas, Coloridas e Divertidas!</title>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div id="whats"><span class="whatsapp"><i class="fa-brands fa-whatsapp"></i> (41) 3668-1061</span></div>
+      <div id="redes">
+        <a href="https://www.facebook.com/meiasbrisk" class="social" target="_blank" rel="external"><i class="fa-brands fa-facebook"></i></a>
+        <a href="https://www.instagram.com/meiasbrisk/" class="social" target="_blank" rel="external"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+    <section id="header-nav">
+      <div class="logo">
+          <img src="../static/imagens/Logo-Brisk.png" alt="">
+      </div>
+          <input type="text" name="" id="" placeholder="O que você procura?">
+          <div id="contato"><img src="../static/imagens/contact.svg" alt="" class="img-size"><a href="#">Contato</a></div>
+          <a href="{{ url_for('info') }}"><img src="../static/imagens/user.svg" alt="" class="img-size"> </a>
+          <div id="carrinho"><img src="../static/imagens/carrinho.svg" alt=""class="img-size"><a href="#">R$00,00 (0)</a></div>
+    </section>
+    <nav>
+        <a href="#">Masculino</a>
+        <a href="#">Feminino</a>
+        <a href="#">Esporte</a>
+        <a href="#">Casual</a>
+        <a href="#">Comfort</a>
+        <a href="#">Infantil</a>
+    </nav>
+  </header>
+  <main>
+    <div id="banner">
+      <!--Banner por CSS-->
+    </div>
+    <h1>Conheça Toda a Linha Brisk</h1>
+    <section id="produto">
+      <div class="produto-meia">
+        <img src="../static/imagens/meia-placeholder.png" alt="">
+        <p>Meia</p>
+        <span>R$ ??,??</span>
+        <a href="#">Eu quero</a>
+      </div>
+      <div class="produto-meia">
+        <img src="../static/imagens/meia-placeholder.png" alt="">
+        <p>Meia</p>
+        <span>R$ ??,??</span>
+        <a href="../templates/produto.html">Eu quero</a>
+      </div>
+      <div class="produto-meia">
+        <img src="../static/imagens/meia-placeholder.png" alt="">
+        <p>Meia</p>
+        <span>R$ ??,??</span>
+        <a href="../templates/produto.html">Eu quero</a>
+      </div>
+      <div class="produto-meia">
+        <img src="../static/imagens/meia-placeholder.png" alt="">
+        <p>Meia</p>
+        <span>R$ ??,??</span>
+        <a href="../templates/produto.html">Eu quero</a>
+      </div>
+      <div class="produto-meia">
+        <img src="../static/imagens/meia-placeholder.png" alt="">
+        <p>Meia</p>
+        <span>R$ ??,??</span>
+        <a href="../templates/produto.html">Eu quero</a>
+      </div>
+      <div class="produto-meia">
+        <img src="../static/imagens/meia-placeholder.png" alt="">
+        <p>Meia</p>
+        <span>R$ ??,??</span>
+        <a href="../templates/produto.html">Eu quero</a>
+      </div>
+      <div class="produto-meia">
+        <img src="../static/imagens/meia-placeholder.png" alt="">
+        <p>Meia</p>
+        <span>R$ ??,??</span>
+        <a href="../templates/produto.html">Eu quero</a>
+      </div>
+    </section>
+    <section id="Garantias">
+      <h1>BRISK É GARANTIA DE:</h1>
+      <div id="layout-garantia">
+        <div class="garantia">
+          <img src="../static/imagens/icone-brisk-qualidade.png" alt="">
+          <p>Qualidade</p>
+        </div>
+        <div class="garantia">
+          <img src="../static/imagens/icone-brisk-confiança.png" alt="">
+          <P>Confiança</P>
+        </div>
+        <div class="garantia">
+          <img src="../static/imagens/ícones-Brisk-margem_de_lucro.png" alt="">
+          <P>Margem de Lucro</P>
+        </div>
+        <div class="garantia">
+          <img src="../static/imagens/Marketing.png" alt="">
+          <P>Apoio de Marketing</P>
+        </div>
+        <div class="garantia">
+          <img src="../static/imagens/pagamento-facilitado.png" alt="">
+          <P>Pagamento Facilitado</P>
+        </div>
+        <div class="garantia">
+          <img src="../static/imagens/entrega-rapida.png" alt="">
+          <P>Entrega Rápida</P>
+        </div>
+      </div>
+    </section>
+  </main>
+    <br>
+    <footer>
+      <img src="../static/imagens/logo-footer.png" alt="">
+      <p>Redesign feito por João Gabriel Kosctiuk e Fellipe Lingenover Sumida.</p>
+      <p>@2021 BRISK - Primeiros Passos. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>
+
