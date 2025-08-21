@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 #impelmentar o db
-from app.db import session, Cores, usuarios
+from database.db import session, Cores, usuarios
 app = Flask(__name__)
 #integrar a um db ja existente
 @app.route("/")#home page
