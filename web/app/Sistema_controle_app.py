@@ -27,7 +27,7 @@ class PrototipoApp(App):
         def ao_enviar(instance):
             if self.tipo_acao == "add_cor":
                 if self.state == 1:
-                    self.nv_cor = self.entrada.text.strip().lower()  # padroniza 
+                    self.nv_cor = self.entrada.text.strip().lower()
                     if self.nv_cor == "":
                         self.pergunta.text = "Digite uma cor válida!"
                         return
@@ -74,12 +74,10 @@ class PrototipoApp(App):
 
             if self.tipo_acao == "prod_meia":
                 if self.state == 1:
-                    # Pergunta cores
                     self.pergunta.text = "Digite as cores a serem usadas (separe com vírgula):"
                     self.state = 2
                     return
                 elif self.state == 2:
-                    # Processa cores
                     cores_no_db = session.query(Cores.cor).all()
                     cores_disponiveis = [cor[0].lower() for cor in cores_no_db]
                     self.cores_escolhidas = [c.strip().lower() for c in self.entrada.text.split(',')]
@@ -147,7 +145,6 @@ class PrototipoApp(App):
                             size_hint_y=None, height=30, color=(1,1,1,1)
                         ))
                         return
-                    # Cálculo de material
                     gauge_base = 96
                     consumo_base = 50
                     fator_consumo = gauge_base / self.gauge_agulha
@@ -157,29 +154,30 @@ class PrototipoApp(App):
                             text=f"→ Cor: {cor} será usado aproximadamente {material_total_por_cor:.2f}g de lã",
                             size_hint_y=None, height=30, color=(1, 1, 1, 1)
                         ))
-                    # Atualiza banco
                     cores_no_db = session.query(Cores).all()
                     cores_disponiveis = {c.cor.lower(): c for c in cores_no_db}
                     for cor in self.cores_escolhidas:
-                    	cor_obj = cores_disponiveis[cor]
-                    	material_kg = material_total_por_cor / 1000
-                    	if cor_obj.quantidade_cor_kg >= material_kg:
-                    		cor_obj.quantidade_cor_kg -= material_kg
-                    		self.grid.add_widget(Label(
-                    		text=f"Produção estimada concluída para {cor}",
-                    		size_hint_y=None,
-                    		height=30,
-                    		color=(0, 1, 0, 1)))
-                    	else:
-                    		self.grid.add_widget(Label(
-                    		text=f"Não há lã suficiente para a cor {cor} (precisa de {material_kg:.2f}kg, disponível {cor_obj.quantidade_cor_kg:.2f}kg)",
-                    		size_hint_y=None,
-                    		height=30,
-                    		color=(1, 0, 0, 1)
-                    		))
-                    		session.commit()
+                        cor_obj = cores_disponiveis[cor]
+                        material_kg = material_total_por_cor / 1000
+                        if cor_obj.quantidade_cor_kg >= material_kg:
+                            cor_obj.quantidade_cor_kg -= material_kg
+                            self.grid.add_widget(Label(
+                                text=f"Produção estimada concluída para {cor}",
+                                size_hint_y=None,
+                                height=30,
+                                color=(0, 1, 0, 1)
+                            ))
+                        else:
+                            self.grid.add_widget(Label(
+                                text=f"Não há lã suficiente para a cor {cor} (precisa de {material_kg:.2f}kg, disponível {cor_obj.quantidade_cor_kg:.2f}kg)",
+                                size_hint_y=None,
+                                height=30,
+                                color=(1, 0, 0, 1)
+                            ))
+                    session.commit()
                     self.state = 0
                     self.tipo_acao = ""
+
 
             if self.tipo_acao == "atualizar":
                 cores_no_db = session.query(Cores).all()
