@@ -5,7 +5,7 @@ app = Flask(__name__)
 #integrar a um db ja existente
 @app.route("/")#home page
 def home():
-	return render_template("home.html")#retornar o arquivo html de home
+	return render_template("index.html")#retornar o arquivo html de home
 @app.route("/info")
 def info():
     return render_template("informação.html",usuarios=usuarios)

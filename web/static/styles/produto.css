@@ -6,19 +6,115 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/*Header*/
+header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;   /* ocupa toda a largura */
+  background: #ffffff;
+  color: white;
+  z-index: 1000; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.13);
+}
+header input{
+    height: 40px;
+    width: 300px;
+    border-radius: 40px;
+    border: none;
+    padding-left: 40px;
+    background: rgb(224, 224, 224) url("../imagens/search-icon.png") no-repeat 10px center;
+    background-size: 20px 20px;
+}
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  background: #2a9baa;
+  color: #fff;
+  padding: 5px 40px;
+  font-size: 14px;
+}
+
+.topbar a {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  margin: 0px 5px;
+}
+.topbar a:hover{
+  color: #3bd5e9;
+}
+.topbar span{
+  color: white;
+  font-size: 15px;
+}
+section#header-nav{
+    display: flex;
+    flex-direction: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+}
+section#header-nav img.img-size{
+     width: 30px;
+}
+div.logo > img{
+    height: 60px;
+}
+div#contato{
+    display: flex;
+    align-items: center;
+}
+div#contato > a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+div#carrinho{
+    display: flex;
+    align-items: center;
+}
+div#carrinho > a{
+    text-decoration: none;
+    color: black;
+}
+nav{
+    padding: 10px;
+    text-align: center;
+    background-color: #2a9baa;
+}
+nav > a{
+  padding: 0px 35px;
+  text-decoration: none;
+  color: white;
+}
+nav > a:hover{
+  color: rgb(226, 226, 226);
+}
+
 .round {
   border-radius: 100%;
 }
 
 main {
   margin: auto;
+  padding-top: 156px;
   width: 80%;
 }
 
 section#product-content {
   display: flex;
+  padding-top: 50px;
+  padding-bottom: 50px;
   flex-direction: row;
   gap: 50px;
+}
+
+#info > div {
+  /* padding-bottom: 5px; */
+  gap: 15px;
 }
 
 #display > img {
@@ -68,4 +164,19 @@ span#preco {
 #quantidade > button {
   width: 25px;
   height: 25px;
+}
+
+/*Footer*/
+footer{
+  background-color: #2a9baa;
+  padding: 20px;
+  text-align: center;
+}
+footer img{
+  padding-bottom: 10px;
+}
+footer p{
+  color: white;
+  font-size: 0.8em;
+  padding: 5px 0px;
 }
