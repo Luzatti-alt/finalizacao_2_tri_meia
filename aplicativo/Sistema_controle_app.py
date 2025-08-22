@@ -1,4 +1,9 @@
-from db import *
+import sys
+import os
+dir_atual = os.path.dirname(__file__)
+dir_base = os.path.abspath(os.path.join(dir_atual, ".."))
+sys.path.append(dir_base)
+from database.db import session, Cores
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
