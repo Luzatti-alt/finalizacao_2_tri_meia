@@ -1,11 +1,13 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+block_cipher = None
+
 a = Analysis(
-    ['aplicativo\\Sistema_controle_app.py'],
-    pathex=['C:\\Users\\Lucas\\Desktop\\projetos_atvs_escola_facu\\sesi_metade_2025\\finalizacao_2_tri_meia'],
+    ['Sistema_controle_app.py'],
+    pathex=['C:\\Users\\Lucas\\Desktop\\projetos_atvs_escola_facu\\sesi_metade_2025\\finalizacao_2_tri_meia\\aplicativo'],
     binaries=[],
     datas=[
-        ('database', 'database')
+        ('..\\database', 'database')
     ],
     hiddenimports=['sqlalchemy', 'kivy'],
     hookspath=[],
