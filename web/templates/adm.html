@@ -16,7 +16,13 @@
   <h2 style="color:white">Estoque materiais:</h2>
   <center>
     <div class="adm_infos">
-      temporario ver como fazer aparecer o db dos fios aqui
+      <ul>
+        {% for cor in Cores %}
+            <li>{{ Cores.cores }} - {{ Cores.quantidade_cor_kg }} kg</li>
+        {% else %}
+            <li>Nenhuma cor de fio cadastrada.</li>
+        {% endfor %}
+    </ul>
     </div>
     <h2 style="color:white">Estoque produtos:</h2>
     <div class="adm_infos">
