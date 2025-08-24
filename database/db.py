@@ -1,7 +1,10 @@
 from sqlalchemy import create_engine, Column, String , Integer,Float, Boolean,UniqueConstraint
 from sqlalchemy.orm import sessionmaker, declarative_base
 #criar db
-db = create_engine("sqlite:///Meia_controle_fios.db")#tipo de sql:///nome do db.db
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "database", "Meia_controle_fios.db)
+
+db = create_engine(f"sqlite:///{DB_PATH}")#tipo de sql:///nome do db.db
 #sessão com o db
 Session = sessionmaker(bind=db)
 session = Session()
