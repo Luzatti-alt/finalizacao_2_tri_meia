@@ -20,7 +20,12 @@ def produto():
 @app.route("/carrinho")
 def carrinho():
     return render_template("carrinho.html")
-@app.route("/adm")
 def adm():
-    return render_template("adm.html",Cores=Cores,usuarios=usuarios)
+    # Busca todos os registros da tabela Cores
+    cores_lista = Cores.query.all()  
+
+    # Supondo que 'usuarios' seja algo semelhante
+    usuarios_lista = usuarios.query.all()  # se 'usuarios' for uma classe SQLAlchemy
+
+    return render_template("adm.html", Cores=cores_lista, usuarios=usuarios_lista)
 app.run(host="0.0.0.0",port=5000)
