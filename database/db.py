@@ -3,7 +3,7 @@ from sqlalchemy import create_engine, Column, String , Integer,Float, Boolean,Un
 from sqlalchemy.orm import sessionmaker, declarative_base
 #criar db
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, "database", "Meia_controle_fios.db")
+DB_PATH = os.path.join(BASE_DIR, "Meia_controle_fios.db")
 
 db = create_engine(f"sqlite:///{DB_PATH}")
 #tipo de sql:///nome do db.db
@@ -30,4 +30,7 @@ class usuarios(Base):
   cargo = Column(String)
 #criar o arquivo do db com o que precisa
 if not os.path.exists(DB_PATH):
-    Base.metadata.create_all(bind=db)#ele cria o arquivo do db
+    print("Banco não encontrado, criando novo em:", DB_PATH)
+    Base.metadata.create_all(bind=db)
+else:
+    print("Banco encontrado:", DB_PATH)#ele cria o arquivo do db
