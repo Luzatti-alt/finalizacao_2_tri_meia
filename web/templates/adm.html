@@ -18,10 +18,10 @@
     <div class="adm_infos">
       <ul>
         {% for cor in Cores %}
-            <li>{{ Cores.cor }} - {{ Cores.quantidade_cor_kg }} kg</li>
-        {% else %}
-            <li>Nenhuma cor de fio cadastrada.</li>
-        {% endfor %}
+    <li>{{ cor.cor }} - {{ cor.quantidade_cor_kg }} kg {% if cor.disponivel %}- Disponível{% else %}- Indisponível{% endif %}</li>
+{% else %}
+    <li>Nenhuma cor de fio cadastrada.</li>
+{% endfor %}
     </ul>
     </div>
     <h2 style="color:white">Estoque produtos:</h2>
