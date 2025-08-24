@@ -47,7 +47,6 @@ body {
   background: lightgray;
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* para texto começar no topo */
   font-size: 250%;
   width: 80dvh;
   height: 30dvh;
