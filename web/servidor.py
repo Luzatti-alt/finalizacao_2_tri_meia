@@ -20,6 +20,7 @@ def produto():
 @app.route("/carrinho")
 def carrinho():
     return render_template("carrinho.html")
+@app.route("/adm")
 def adm():
     # Busca todos os registros da tabela Cores
     cores_lista = Cores.query.all()  
