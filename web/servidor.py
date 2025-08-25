@@ -1,7 +1,11 @@
 import sys
 import os
 dir_atual = os.path.dirname(__file__)
-dir_base = os.path.abspath(os.path.join(dir_atual, ".."))
+if getattr(sys, 'frozen', False):
+    dir_base = os.path.dirname(sys.executable)
+else:
+    dir_base = os.path.dirname(os.path.abspath(__file__))
+
 sys.path.append(dir_base)
 from flask import Flask, render_template
 #impelmentar o db
