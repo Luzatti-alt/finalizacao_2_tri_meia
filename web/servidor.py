@@ -26,3 +26,4 @@ def adm():
     usuarios_lista = session.query(usuarios).all()
     return render_template("adm.html", Cores=cores_lista, usuarios=usuarios_lista)
 app.run(host="0.0.0.0",port=5000)
+#foi?
