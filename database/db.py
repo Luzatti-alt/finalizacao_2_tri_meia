@@ -35,6 +35,11 @@ class usuarios(Base):
   User = Column("Usuario",String)
   senha = Column("senha",String)
   cargo = Column(String)
+class Produtos(Base):
+  __tablename__ = 'Usuarios'
+  id = Column("id",Integer,primary_key=True, autoincrement=True)#chave principal & qnd add uma nova cor ele ja cria um novo id
+  Nome_prod = Column("nome produto",String)
+  quantidade_prod = Column("quantidade produto",int)
 #criar o arquivo do db com o que precisa
 if not os.path.exists(DB_PATH):
     print("Banco não encontrado, criando novo em:", DB_PATH)
