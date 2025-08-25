@@ -381,3 +381,4 @@ class PrototipoApp(App):
         self.painel_fundo.size = self.scroll.size
 
 PrototipoApp().run()
+#foi?
