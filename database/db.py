@@ -1,9 +1,16 @@
-import os
+import os, sys
 from sqlalchemy import create_engine, Column, String , Integer,Float, Boolean,UniqueConstraint
 from sqlalchemy.orm import sessionmaker, declarative_base
 #criar db
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+if getattr(sys, 'frozen', False):
+    BASE_DIR = os.path.join(os.environ["APPDATA"], "MeiaApp")
+    os.makedirs(BASE_DIR, exist_ok=True)
+else:
+    # Se for rodando normal, usa a pasta do projeto
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 DB_PATH = os.path.join(BASE_DIR, "Meia_controle_fios.db")
+
 
 db = create_engine(f"sqlite:///{DB_PATH}")
 #tipo de sql:///nome do db.db
