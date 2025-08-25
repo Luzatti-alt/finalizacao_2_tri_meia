@@ -34,3 +34,4 @@ if not os.path.exists(DB_PATH):
     Base.metadata.create_all(bind=db)
 else:
     print("Banco encontrado:", DB_PATH)#ele cria o arquivo do db
+#foi?
